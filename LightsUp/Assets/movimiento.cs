@@ -20,5 +20,10 @@ public class movimiento : MonoBehaviour
         {
             transform.position += Vector3.right * velocidad * Time.deltaTime * Input.GetAxisRaw("Horizontal");
         }
+
+        if (Input.GetButton("Vertical"))
+        {
+            transform.position += Vector3.up * velocidad * Time.deltaTime * Input.GetAxisRaw("Vertical");
+        }
     }
 }
