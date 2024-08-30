@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerMov : MonoBehaviour
 {
-    public float velocidad;
+    private float velocidad;
+    public float velocidadCaminar;
+    public float velocidadCorrer;
     private Rigidbody2D rb2d;
     public float Horizontal;
 
@@ -12,6 +14,7 @@ public class PlayerMov : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        velocidad = velocidadCaminar;
     }
 
     // Update is called once per frame
@@ -26,6 +29,14 @@ public class PlayerMov : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            velocidad = velocidadCorrer;
+        } else
+        {
+            velocidad = velocidadCaminar;
+        }
+
         rb2d.velocity = new Vector2(Horizontal * velocidad, rb2d.velocity.y);
     }
 
