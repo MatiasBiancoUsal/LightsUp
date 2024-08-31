@@ -15,6 +15,14 @@ public class PlayerMov : MonoBehaviour
 
     public bool isRunning, isCrouched;
 
+    [Header("Roll")]
+    public bool isRolling = false;
+    private bool canRoll = true;
+    public float rollingTime;
+    public float rollingCooldown;
+    public float rollingPower;
+
+
     private void Awake()
     {
         Instance = this;
@@ -36,25 +44,35 @@ public class PlayerMov : MonoBehaviour
         //Caminar
         Horizontal = Input.GetAxis("Horizontal");
 
-        if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        if (!isRolling)
+        {
+            if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
 
-        else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-        Crouch();
+            Crouch();
+        }
+
+        Roll();
     }
 
     private void FixedUpdate()
     {
-        //Correr
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (!isRolling)
         {
-            speed = speedRun;
-        } else
-        {
-            speed = speedWalk;
-        }
+            //Correr
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                speed = speedRun;
+            }
+            else
+            {
+                speed = speedWalk;
+            }
 
-        rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
+            rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
+        }
+      
     }
 
     //Crouch
@@ -63,7 +81,6 @@ public class PlayerMov : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             isCrouched = true;
-            Debug.Log("Anda");
             animator.SetBool("Crouched", isCrouched);
         }
 
@@ -72,5 +89,33 @@ public class PlayerMov : MonoBehaviour
             isCrouched = false;
             animator.SetBool("Crouched", isCrouched);
         }
+    }
+
+    public void Roll()
+    {
+        if (Input.GetKeyDown(KeyCode.C) && canRoll)
+        {
+            StartCoroutine(StartRoll());
+        }
+    }
+
+    IEnumerator StartRoll()
+    {
+        canRoll = false;
+        isRolling = true;
+        animator.SetBool("Roll", isRolling);
+        if (Horizontal > 0.0f)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower, 0f);
+        }
+        else if (Horizontal < 0.0f)
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x - rollingPower, 0f);
+        }
+        yield return new WaitForSeconds(rollingTime);
+        isRolling = false;
+        animator.SetBool("Roll", isRolling);
+        yield return new WaitForSeconds(rollingCooldown);
+        canRoll = true;
     }
 }
