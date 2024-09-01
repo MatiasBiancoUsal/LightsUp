@@ -8,12 +8,12 @@ public class PlayerMov : MonoBehaviour
 
     private float speed;
     public float speedWalk;
-    public float speedRun;
+    public float speedRun, speedCrouch;
     private Rigidbody2D rb2d;
     private Animator animator;
     public float Horizontal;
 
-    public bool isRunning, isCrouched;
+    public bool isRunning;
 
     [Header("Roll")]
     public bool isRolling = false;
@@ -22,6 +22,12 @@ public class PlayerMov : MonoBehaviour
     public float rollingCooldown;
     public float rollingPower;
 
+    [Header("Crouch")]
+    public bool isCrouched = false;
+
+    public Transform headCheck;
+    public float headCheckLength;
+    public LayerMask groundMask;
 
     private void Awake()
     {
@@ -53,7 +59,9 @@ public class PlayerMov : MonoBehaviour
             Crouch();
         }
 
-        Roll();
+            Roll();
+
+
     }
 
     private void FixedUpdate()
@@ -63,37 +71,58 @@ public class PlayerMov : MonoBehaviour
             //Correr
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                isRunning = true;
                 speed = speedRun;
             }
             else
             {
+                isRunning = false;
                 speed = speedWalk;
             }
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
         }
-      
+
     }
 
-    //Crouch
+    //Agachar
     public void Crouch()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        bool isHeadHitting = HeadDetect();
+
+        if (Input.GetKeyDown(KeyCode.C) || isHeadHitting)
         {
             isCrouched = true;
             animator.SetBool("Crouched", isCrouched);
         }
 
-        if (Input.GetKeyUp(KeyCode.X))
+        if (Input.GetKeyUp(KeyCode.C))
         {
             isCrouched = false;
             animator.SetBool("Crouched", isCrouched);
         }
     }
 
+    public bool HeadDetect()
+    {
+        bool hit = Physics2D.Raycast(headCheck.position, Vector2.up, headCheckLength, groundMask);
+        return hit;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (headCheck == null) return;
+
+        Vector2 from = headCheck.position;
+        Vector2 to = new Vector2(headCheck.position.x, headCheck.position.y + headCheckLength);
+
+        Gizmos.DrawLine(from, to);
+    }
+
+    //Rodar
     public void Roll()
     {
-        if (Input.GetKeyDown(KeyCode.C) && canRoll)
+        if (Input.GetKeyDown(KeyCode.X) && canRoll)
         {
             StartCoroutine(StartRoll());
         }
