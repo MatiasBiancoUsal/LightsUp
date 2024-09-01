@@ -60,8 +60,6 @@ public class PlayerMov : MonoBehaviour
         }
 
             Roll();
-
-
     }
 
     private void FixedUpdate()
@@ -98,9 +96,13 @@ public class PlayerMov : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.C))
         {
-            isCrouched = false;
-            animator.SetBool("Crouched", isCrouched);
+            if (!isHeadHitting)
+            {
+                isCrouched = false;
+                animator.SetBool("Crouched", isCrouched);
+            }
         }
+
     }
 
     public bool HeadDetect()
@@ -130,21 +132,24 @@ public class PlayerMov : MonoBehaviour
 
     IEnumerator StartRoll()
     {
-        canRoll = false;
-        isRolling = true;
-        animator.SetBool("Roll", isRolling);
-        if (Horizontal > 0.0f)
+        if (Horizontal != 0 && !isCrouched)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower, 0f);
+            canRoll = false;
+            isRolling = true;
+            animator.SetBool("Roll", isRolling);
+            if (Horizontal > 0.0f)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower, 0f);
+            }
+            else if (Horizontal < 0.0f)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x - rollingPower, 0f);
+            }
+            yield return new WaitForSeconds(rollingTime);
+            isRolling = false;
+            animator.SetBool("Roll", isRolling);
+            yield return new WaitForSeconds(rollingCooldown);
+            canRoll = true;
         }
-        else if (Horizontal < 0.0f)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x - rollingPower, 0f);
-        }
-        yield return new WaitForSeconds(rollingTime);
-        isRolling = false;
-        animator.SetBool("Roll", isRolling);
-        yield return new WaitForSeconds(rollingCooldown);
-        canRoll = true;
     }
 }
