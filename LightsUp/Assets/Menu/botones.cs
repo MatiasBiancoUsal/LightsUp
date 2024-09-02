@@ -15,7 +15,7 @@ public class botones : MonoBehaviour
     public void comenzar() // boton del menu "intro" deberia ser el nombre de la escena que tenga la animacion de introduccion
     {
 
-        SceneManager.LoadScene("intro");
+        SceneManager.LoadScene("Intro");
     
     }
 
@@ -23,7 +23,7 @@ public class botones : MonoBehaviour
     public void jugar() //este sirve para la siguiente escena en caso de que quieran saltear la into
     {
 
-        SceneManager.LoadScene("nivel 1");
+        SceneManager.LoadScene("Nivel1");
 
     }
 

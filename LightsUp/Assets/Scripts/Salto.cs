@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Salto : MonoBehaviour
 {
+    public static Salto Instance;
+
     public float speed = 5f;        // Velocidad de movimiento del personaje
     public float jumpForce = 7f;    // Fuerza del salto
     private bool isGrounded;        // ¿Está el personaje en el suelo?
     private bool canDoubleJump;     // 
 
     private Rigidbody2D rb;         // Referencia al Rigidbody2D del personaje
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -32,7 +35,7 @@ public class Salto : MonoBehaviour
             if (isGrounded)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                canDoubleJump = true;  // Habilita el doble salto
+                canDoubleJump = false;  // Habilita el doble salto
             }
             else if (canDoubleJump)
             {
