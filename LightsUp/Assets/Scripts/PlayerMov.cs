@@ -8,7 +8,7 @@ public class PlayerMov : MonoBehaviour
 
     private float speed;
     public float speedWalk;
-    public float speedRun, speedCrouch;
+    public float speedRun;
     private Rigidbody2D rb2d;
     private Animator animator;
     public float Horizontal;
@@ -23,6 +23,7 @@ public class PlayerMov : MonoBehaviour
     public float rollingPower;
 
     [Header("Crouch")]
+    public float speedCrouch;
     public bool isCrouched = false;
 
     public Transform headCheck;
@@ -67,12 +68,15 @@ public class PlayerMov : MonoBehaviour
         if (!isRolling)
         {
             //Correr
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && !isCrouched)
             {
                 isRunning = true;
                 speed = speedRun;
             }
-            else
+            else if (isCrouched)
+            {
+                speed = speedCrouch;
+            } else
             {
                 isRunning = false;
                 speed = speedWalk;
