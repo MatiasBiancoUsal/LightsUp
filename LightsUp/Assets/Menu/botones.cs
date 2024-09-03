@@ -38,14 +38,14 @@ public class botones : MonoBehaviour
 
 
 
-    public void Options() //este sirve para la siguiente escena en caso de que quieran saltear la into
+    public void Options() //este sirve para abrir el panel de  options
     {
 
         pauseMenuUI.SetActive(true);
 
     }
 
-    public void volver() //este sirve para la siguiente escena en caso de que quieran saltear la into
+    public void volver() //este sirve para la siguiente voler
     {
 
         pauseMenuUI.SetActive(false);

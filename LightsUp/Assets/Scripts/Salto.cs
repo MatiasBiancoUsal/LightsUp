@@ -13,6 +13,10 @@ public class Salto : MonoBehaviour
 
     private Rigidbody2D rb;         // Referencia al Rigidbody2D del personaje
 
+    public Transform groundCheck;
+    public float groundCheckLength;
+    public LayerMask groundMask;
+
     private void Awake()
     {
         Instance = this;
@@ -25,14 +29,10 @@ public class Salto : MonoBehaviour
 
     void Update()
     {
-        // Movimiento horizontal
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
         // Salto y doble salto
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isGrounded)
+            if (GroundDetect())
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 canDoubleJump = false;  // Habilita el doble salto
@@ -45,21 +45,22 @@ public class Salto : MonoBehaviour
         }
     }
 
-    // Verifica si el personaje está tocando el suelo o una plataforma
-    void OnCollisionEnter2D(Collision2D collision)
+
+    public bool GroundDetect()
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
-        {
-            isGrounded = true;
-        }
+        bool hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckLength, groundMask);
+        return hit;
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    private void OnDrawGizmos()
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
-        {
-            isGrounded = false;
-        }
+        if (groundCheck == null) return;
+
+        Vector2 from = groundCheck.position;
+        Vector2 to = new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckLength);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(from, to);
     }
 }
 

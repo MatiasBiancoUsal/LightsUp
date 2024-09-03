@@ -7,11 +7,12 @@ TagManager:
   - Ladder
   - Ground
   - Platform
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: Platform
     uniqueID: 3321689239
+    locked: 0
+  - name: Player
+    uniqueID: 389000421
     locked: 0
