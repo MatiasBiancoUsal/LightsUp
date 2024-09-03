@@ -29,10 +29,6 @@ public class Salto : MonoBehaviour
 
     void Update()
     {
-        // Movimiento horizontal
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
         // Salto y doble salto
         if (Input.GetKeyDown(KeyCode.Space))
         {
