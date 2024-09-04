@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LadderMov : MonoBehaviour
+public class PlayerClimb : MonoBehaviour
 {
     private float vertical;
     public float speedClimb;

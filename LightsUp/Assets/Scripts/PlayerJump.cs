@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Salto : MonoBehaviour
+public class PlayerJump : MonoBehaviour
 {
-    public static Salto Instance;
+    public static PlayerJump Instance;
 
     public float speed = 5f;        // Velocidad de movimiento del personaje
     public float jumpForce = 7f;    // Fuerza del salto

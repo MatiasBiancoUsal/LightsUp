@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMov : MonoBehaviour
 {
-    public static PlayerMov Instance;
+    public static PlayerMov instance;
 
     private float speed;
     public float speedWalk;
@@ -32,7 +32,7 @@ public class PlayerMov : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        instance = this;
     }
 
     // Start is called before the first frame update

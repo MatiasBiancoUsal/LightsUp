@@ -39,7 +39,7 @@ public class PlayerPushPull : MonoBehaviour
 
     void Drag()
     {
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), 0);
 
         if (pulledObject != null)
         {

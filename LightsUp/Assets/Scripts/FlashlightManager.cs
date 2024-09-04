@@ -19,7 +19,7 @@ public class FlashlightManager : MonoBehaviour
         {
                 if (isFlashlight)
                 {
-                    flashlightsOff();
+                    FlashlightsOff();
                     isFlashlight = false;
                 } else
                 {
@@ -31,7 +31,7 @@ public class FlashlightManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            flashlightsOff();
+            FlashlightsOff();
             if (currentFlashlight >= Flashlight.Length - 1)
             {
                 currentFlashlight = 0;
@@ -45,7 +45,7 @@ public class FlashlightManager : MonoBehaviour
 
     }
 
-    void flashlightsOff()
+    void FlashlightsOff()
     {
         for (int i = 0; i < Flashlight.Length; i++)
         {
