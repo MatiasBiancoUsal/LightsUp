@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class botones : MonoBehaviour
+public class MainMenuButtons : MonoBehaviour
 {
 
     public static bool GameIsPaused = false;
@@ -12,7 +12,7 @@ public class botones : MonoBehaviour
     public GameObject pauseMenuUI; 
 
 
-    public void comenzar() // boton del menu "intro" deberia ser el nombre de la escena que tenga la animacion de introduccion
+    public void StartIntro() // boton del menu "intro" deberia ser el nombre de la escena que tenga la animacion de introduccion
     {
 
         SceneManager.LoadScene("Intro");
@@ -20,15 +20,15 @@ public class botones : MonoBehaviour
     }
 
 
-    public void jugar() //este sirve para la siguiente escena en caso de que quieran saltear la into
+    public void StartGame() //este sirve para la siguiente escena en caso de que quieran saltear la into
     {
 
-        SceneManager.LoadScene("Nivel1");
+        SceneManager.LoadScene("Level1");
 
     }
 
 
-    public void salir() //logicamente, boton de salir
+    public void QuitGame() //logicamente, boton de salir
 
     {
 
@@ -45,7 +45,7 @@ public class botones : MonoBehaviour
 
     }
 
-    public void volver() //este sirve para la siguiente voler
+    public void Back() //este sirve para la siguiente voler
     {
 
         pauseMenuUI.SetActive(false);

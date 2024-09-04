@@ -49,18 +49,21 @@ public class PlayerMov : MonoBehaviour
     void Update()
     {
         //Caminar
-        Horizontal = Input.GetAxis("Horizontal");
-
-        if (!isRolling)
+        if (!PauseMenu.instance.isPaused)
         {
-            if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            Horizontal = Input.GetAxis("Horizontal");
 
-            else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            if (!isRolling)
+            {
+                if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
 
-            Crouch();
-        }
+                else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+                Crouch();
+            }
 
             Roll();
+        }
     }
 
     private void FixedUpdate()
