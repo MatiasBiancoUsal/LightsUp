@@ -31,15 +31,20 @@ public class FlashlightManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
+
             FlashlightsOff();
             if (currentFlashlight >= Flashlight.Length - 1)
             {
                 currentFlashlight = 0;
-            } else
+            }
+            else
             {
                 currentFlashlight++;
             }
-            Flashlight[currentFlashlight].SetActive(true);
+            if (isFlashlight)
+            {
+                Flashlight[currentFlashlight].SetActive(true);
+            }
 
         }
 
