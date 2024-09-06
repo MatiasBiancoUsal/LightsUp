@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Enemy : MonoBehaviour
+public class EnemyMov : MonoBehaviour
 {
-    public int life = 100;
     public GameObject PointA;
     public GameObject PointB;
     public float speed;
@@ -19,20 +18,7 @@ public class Enemy : MonoBehaviour
         currentPoint = PointB.transform;
         //anim.SetBool("isRunning", true);
     }
-    public void RecieveDamage(int damage)
-    {
-        life -= damage;
 
-        if (life <= 0)
-        {
-            Death();
-        }
-    }
-
-    void Death()
-    {
-        Destroy(gameObject);
-    }
     void Update()
     {
         Vector2 Point = currentPoint.position - transform.position;

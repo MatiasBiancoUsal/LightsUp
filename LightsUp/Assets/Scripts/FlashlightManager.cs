@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class FlashlightManager : MonoBehaviour
 {
-    public GameObject[] Flashlight;
+    public GameObject[] flashlight;
     public int currentFlashlight = 0;
-    private bool isFlashlight = false;
+    public bool isFlashlight = false;
+    public static FlashlightManager instance;
     // Start is called before the first frame update
-    void Start()
+
+
+    void Awake()
     {
+        instance = this;
     }
 
     // Update is called once per frame
@@ -23,7 +27,7 @@ public class FlashlightManager : MonoBehaviour
                     isFlashlight = false;
                 } else
                 {
-                    Flashlight[currentFlashlight].SetActive(true);
+                    flashlight[currentFlashlight].SetActive(true);
                     isFlashlight = true;
                 }
 
@@ -33,7 +37,7 @@ public class FlashlightManager : MonoBehaviour
         {
 
             FlashlightsOff();
-            if (currentFlashlight >= Flashlight.Length - 1)
+            if (currentFlashlight >= flashlight.Length - 1)
             {
                 currentFlashlight = 0;
             }
@@ -43,7 +47,7 @@ public class FlashlightManager : MonoBehaviour
             }
             if (isFlashlight)
             {
-                Flashlight[currentFlashlight].SetActive(true);
+                flashlight[currentFlashlight].SetActive(true);
             }
 
         }
@@ -52,9 +56,9 @@ public class FlashlightManager : MonoBehaviour
 
     void FlashlightsOff()
     {
-        for (int i = 0; i < Flashlight.Length; i++)
+        for (int i = 0; i < flashlight.Length; i++)
         {
-            Flashlight[i].SetActive(false);
+            flashlight[i].SetActive(false);
         }
     }
 }

@@ -1,18 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FlashlightDamage : MonoBehaviour
 {
     public float flashLightDistance = 5f; 
     public float flashlightAngle = 45f;
-    public int numRays = 10; 
-    private bool enemyDetected = false;
+    public int numRays = 10;
+    public float flashlightDamage;
 
     void Update()
     {
-        DetectObjectsInTriangle();
+        DetectEnemyFlashlight();
     }
 
-    void DetectObjectsInTriangle()
+    void DetectEnemyFlashlight()
     {
         Vector3 origin = transform.position;
 
@@ -21,7 +22,8 @@ public class FlashlightDamage : MonoBehaviour
         Vector3 leftVertex = origin + (Quaternion.Euler(0, 0, -flashlightAngle / 2) * direction) * flashLightDistance;
         Vector3 rightVertex = origin + (Quaternion.Euler(0, 0, flashlightAngle / 2) * direction) * flashLightDistance;
 
-        enemyDetected = false;
+        HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+
         for (int i = 0; i <= numRays; i++)
         {
             float t = i / (float)numRays; 
@@ -32,7 +34,13 @@ public class FlashlightDamage : MonoBehaviour
 
             if (hit.collider != null)
             {
-                enemyDetected = hit.collider.gameObject.tag == "Enemy";
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    if (hitEnemies.Add(hit.collider) && FlashlightManager.instance.isFlashlight)
+                    {
+                        hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
+                    }
+                }
             }
 
         }
@@ -47,12 +55,10 @@ public class FlashlightDamage : MonoBehaviour
         Vector3 leftVertex = origin + (Quaternion.Euler(0, 0, -flashlightAngle / 2) * direction) * flashLightDistance;
         Vector3 rightVertex = origin + (Quaternion.Euler(0, 0, flashlightAngle / 2) * direction) * flashLightDistance;
 
-        // Dibujar el triángulo
         Gizmos.DrawLine(origin, leftVertex); 
         Gizmos.DrawLine(origin, rightVertex); 
         Gizmos.DrawLine(leftVertex, rightVertex); 
 
-        // Dibujar los raycasts adicionales
         for (int i = 0; i <= numRays; i++)
         {
             float t = i / (float)numRays;
