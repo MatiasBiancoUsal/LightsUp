@@ -19,42 +19,45 @@ public class FlashlightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (!PauseMenu.instance.isPaused)
         {
+            if (Input.GetKeyDown(KeyCode.F) && EnergyBar.instance.currentEnergy > 0)
+            {
                 if (isFlashlight)
                 {
                     FlashlightsOff();
                     isFlashlight = false;
-                } else
+                }
+                else
                 {
                     flashlight[currentFlashlight].SetActive(true);
                     isFlashlight = true;
                 }
 
+            }
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+
+                FlashlightsOff();
+                if (currentFlashlight >= flashlight.Length - 1)
+                {
+                    currentFlashlight = 0;
+                }
+                else
+                {
+                    currentFlashlight++;
+                }
+                if (isFlashlight)
+                {
+                    flashlight[currentFlashlight].SetActive(true);
+                }
+
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-
-            FlashlightsOff();
-            if (currentFlashlight >= flashlight.Length - 1)
-            {
-                currentFlashlight = 0;
-            }
-            else
-            {
-                currentFlashlight++;
-            }
-            if (isFlashlight)
-            {
-                flashlight[currentFlashlight].SetActive(true);
-            }
-
-        }
-
     }
 
-    void FlashlightsOff()
+    public void FlashlightsOff()
     {
         for (int i = 0; i < flashlight.Length; i++)
         {

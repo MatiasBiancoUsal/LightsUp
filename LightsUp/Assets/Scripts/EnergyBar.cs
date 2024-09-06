@@ -6,11 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class EnergyBar : MonoBehaviour
 {
+    public static EnergyBar instance;
+
     public Image energyBarImage; 
     public float maxEnergy = 100f; 
     public float currentEnergy;
     public float energyDecreaseRate = 1f;
     public GameObject player;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -21,14 +28,14 @@ public class EnergyBar : MonoBehaviour
     private void Update()
     {
        
-        if (currentEnergy > 0)
+        if (currentEnergy > 0 && FlashlightManager.instance.isFlashlight)
         {
             currentEnergy -= energyDecreaseRate * Time.deltaTime;
             UpdateEnergyBar();
         }
         else
         {
-            HandlePlayerDeath();
+            FlashlightManager.instance.FlashlightsOff();
         }
     }
 
@@ -50,11 +57,4 @@ public class EnergyBar : MonoBehaviour
         }
     }
 
-    private void HandlePlayerDeath()
-    {
-        if (player != null)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
 }
