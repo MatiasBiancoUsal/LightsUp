@@ -30,6 +30,8 @@ public class PlayerMov : MonoBehaviour
     public float headCheckLength;
     public LayerMask groundMask;
 
+    private bool windZone;
+
     private void Awake()
     {
         instance = this;
@@ -71,7 +73,7 @@ public class PlayerMov : MonoBehaviour
         if (!isRolling)
         {
             //Correr
-            if (Input.GetKey(KeyCode.LeftShift) && !isCrouched)
+            if (Input.GetKey(KeyCode.LeftShift) && !isCrouched && !windZone)
             {
                 isRunning = true;
                 speed = speedRun;
@@ -150,6 +152,21 @@ public class PlayerMov : MonoBehaviour
             animator.SetBool("Roll", isRolling);
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wind"))
+        {
+            windZone = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wind"))
+        {
+            windZone = false;
         }
     }
 }
