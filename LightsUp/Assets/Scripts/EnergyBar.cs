@@ -9,9 +9,6 @@ public class EnergyBar : MonoBehaviour
     public static EnergyBar instance;
 
     public Image energyBarImage; 
-    public float maxEnergy = 100f; 
-    public float currentEnergy;
-    public float energyDecreaseRate = 1f;
     public GameObject player;
 
     private void Awake()
@@ -21,16 +18,14 @@ public class EnergyBar : MonoBehaviour
 
     private void Start()
     {
-        currentEnergy = maxEnergy;
         UpdateEnergyBar();
     }
 
     private void Update()
     {
        
-        if (currentEnergy > 0 && FlashlightManager.instance.isFlashlight)
+        if (FlashlightManager.instance.flashlightEnergy > 0 && FlashlightManager.instance.isFlashlight)
         {
-            currentEnergy -= energyDecreaseRate * Time.deltaTime;
             UpdateEnergyBar();
         }
         else
@@ -39,21 +34,12 @@ public class EnergyBar : MonoBehaviour
         }
     }
 
-    public void AddEnergy(float amount)
-    {
-        currentEnergy += amount;
-        if (currentEnergy > maxEnergy)
-        {
-            currentEnergy = maxEnergy;
-        }
-        UpdateEnergyBar();
-    }
 
     private void UpdateEnergyBar()
     {
         if (energyBarImage != null)
         {
-            energyBarImage.fillAmount = currentEnergy / maxEnergy;
+            energyBarImage.fillAmount = FlashlightManager.instance.flashlightEnergy / FlashlightManager.instance.totalEnergy;
         }
     }
 

@@ -19,7 +19,7 @@ public class EnergyItem : MonoBehaviour
         {
             if (energyBar != null)
             {
-                energyBar.AddEnergy(energyAmount);
+                FlashlightManager.instance.addEnergy(energyAmount);
                 Destroy(gameObject);
             }
         }
