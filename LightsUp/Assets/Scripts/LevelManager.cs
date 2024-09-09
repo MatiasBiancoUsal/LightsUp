@@ -11,6 +11,8 @@ public class LevelManager : MonoBehaviour
     public string nextSceneName;
     public string previousSceneName;
 
+    public float waitToRespawn;
+
     private void Awake()
     {
         instance = this;
@@ -34,5 +36,21 @@ public class LevelManager : MonoBehaviour
         {
             SceneManager.LoadScene(previousSceneName);
         }
+    }
+
+    public void RespawnPlayer()
+    {
+        StartCoroutine(RespawnCo());
+    }
+
+    IEnumerator RespawnCo()
+    {
+        PlayerMov.instance.gameObject.SetActive(false);
+        
+        yield return new WaitForSeconds(waitToRespawn);
+
+        PlayerMov.instance.gameObject.SetActive(true);
+
+        PlayerMov.instance.transform.position = CheckpointController.instance.spawnPoint;
     }
 }
