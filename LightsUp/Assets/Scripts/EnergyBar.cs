@@ -24,7 +24,7 @@ public class EnergyBar : MonoBehaviour
     private void Update()
     {
        
-        if (FlashlightManager.instance.flashlightEnergy > 0 && FlashlightManager.instance.isFlashlight)
+        if (FlashlightManager.instance.flashlightEnergy > 0)
         {
             UpdateEnergyBar();
         }

@@ -9,6 +9,8 @@ TagManager:
   - Platform
   - Enemy
   - Wind
+  - Box
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -54,4 +56,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 389000421
+    locked: 0
+  - name: Battery
+    uniqueID: 1351491939
     locked: 0

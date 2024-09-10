@@ -6,7 +6,7 @@ public class CheckpointController : MonoBehaviour
 {
     public static CheckpointController instance;
 
-    public Checkpoint[] checkpoints;
+    public GameObject[] checkpoints;
 
     public Vector3 spawnPoint;
 
@@ -19,13 +19,14 @@ public class CheckpointController : MonoBehaviour
     void Start()
     {
         spawnPoint = PlayerMov.instance.transform.position;
+        checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
     }
 
     public void DeactivateCheckpoints()
     {
         for (int i = 0; i < checkpoints.Length; i++)
         {
-            checkpoints[i].ResetCheckpoint();
+            checkpoints[i].GetComponent<Checkpoint>().ResetCheckpoint();
         }
     }
 

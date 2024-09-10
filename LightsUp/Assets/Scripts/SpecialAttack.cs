@@ -51,7 +51,6 @@ public class SpecialAttack : MonoBehaviour
             {
                 if (hitEnemies.Add(collider))
                 {
-                    Debug.Log("da�o");
                     collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(damage);
                     Rigidbody2D rb2d = collider.GetComponent<Rigidbody2D>();
                     if (rb2d != null)

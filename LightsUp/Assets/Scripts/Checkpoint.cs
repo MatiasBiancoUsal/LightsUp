@@ -8,6 +8,8 @@ public class Checkpoint : MonoBehaviour
 
     public Sprite checkpointOn, checkpointOff;
 
+    public GameObject checkpointLight;
+
     public CircleCollider2D circleCollider;
 
     private void Start()
@@ -26,12 +28,14 @@ public class Checkpoint : MonoBehaviour
     public void ResetCheckpoint()
     {
         spriteRenderer.sprite = checkpointOff;
+        checkpointLight.gameObject.SetActive(false);
     }
 
     IEnumerator CheckpointCo()
     {
         CheckpointController.instance.DeactivateCheckpoints();
         spriteRenderer.sprite = checkpointOn;
+        checkpointLight.gameObject.SetActive(true);
 
         CheckpointController.instance.SetSpawnPoint(transform.position);
 
