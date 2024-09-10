@@ -8,7 +8,7 @@ public class Killzone : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            LevelManager.instance.RespawnPlayer();
+            lifeCaracter.instance.Fall();
         }
     }
 }
