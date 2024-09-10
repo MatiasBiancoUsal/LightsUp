@@ -15,7 +15,7 @@ public class EnemyMov : MonoBehaviour
     { 
         Rigidbody = GetComponent<Rigidbody2D>();
         //anim = GetComponent<Animator>();
-        currentPoint = PointB.transform;
+        currentPoint = PointA.transform;
         //anim.SetBool("isRunning", true);
     }
 
@@ -26,11 +26,11 @@ public class EnemyMov : MonoBehaviour
         {
             Rigidbody.velocity = new Vector2(speed, Rigidbody.velocity.y);
         }
-        else 
+        else
         {
             Rigidbody.velocity = new Vector2(-speed, Rigidbody.velocity.y);
         }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointB.transform) 
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointB.transform)
         {
             flip();
             currentPoint = PointA.transform;
