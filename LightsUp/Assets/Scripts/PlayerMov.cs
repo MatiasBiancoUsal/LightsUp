@@ -32,33 +32,33 @@ public class PlayerMov : MonoBehaviour
 
     private bool windZone;
 
+    // Booleano para saber si el personaje está sin vidas
+    public bool isDead = false;
+
     private void Awake()
     {
         instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        
         speed = speedWalk;
-
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Caminar
-        if (!PauseMenu.instance.isPaused)
+        // Actualizar el valor de isDead desde lifeCaracter
+        isDead = lifeCaracter.instance.isDead;
+
+        if (!PauseMenu.instance.isPaused && !isDead)  // Asegurarse de que el jugador no se mueva si está muerto
         {
             Horizontal = Input.GetAxis("Horizontal");
 
             if (!isRolling)
             {
                 if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-
                 else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
                 Crouch();
@@ -70,9 +70,8 @@ public class PlayerMov : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isRolling)
+        if (!isRolling && !isDead)  // Evitar que se mueva si está muerto
         {
-            //Correr
             if (Input.GetKey(KeyCode.LeftShift) && !isCrouched && !windZone)
             {
                 isRunning = true;
@@ -81,7 +80,8 @@ public class PlayerMov : MonoBehaviour
             else if (isCrouched)
             {
                 speed = speedCrouch;
-            } else
+            }
+            else
             {
                 isRunning = false;
                 speed = speedWalk;
@@ -89,10 +89,8 @@ public class PlayerMov : MonoBehaviour
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
         }
-
     }
 
-    //Agachar
     public void Crouch()
     {
         bool isHeadHitting = HeadDetect();
@@ -111,7 +109,6 @@ public class PlayerMov : MonoBehaviour
                 animator.SetBool("Crouched", isCrouched);
             }
         }
-
     }
 
     public bool HeadDetect()
@@ -130,7 +127,6 @@ public class PlayerMov : MonoBehaviour
         Gizmos.DrawLine(from, to);
     }
 
-    //Rodar
     public void Roll()
     {
         if (Input.GetKeyDown(KeyCode.X) && canRoll)
@@ -170,3 +166,4 @@ public class PlayerMov : MonoBehaviour
         }
     }
 }
+
