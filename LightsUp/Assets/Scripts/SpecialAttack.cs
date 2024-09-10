@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Hierarchy;
 using UnityEngine;
 
 public class SpecialAttack : MonoBehaviour
@@ -32,7 +33,7 @@ public class SpecialAttack : MonoBehaviour
             float progress = elapsedTime / duration;
             float scale = Mathf.Lerp(5, maxScale, progress);
             transform.localScale = initialScale * scale;
-            DealDamage();
+            DealDamage(scale);
             yield return null;
         }
 
@@ -40,9 +41,9 @@ public class SpecialAttack : MonoBehaviour
 
     }
 
-    private void DealDamage()
+    private void DealDamage(float scale)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, maxScale / 2f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, scale / 2f);
 
         foreach (Collider2D collider in colliders)
         {
@@ -50,7 +51,7 @@ public class SpecialAttack : MonoBehaviour
             {
                 if (hitEnemies.Add(collider))
                 {
-                    Debug.Log("daño");
+                    Debug.Log("daï¿½o");
                     collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(damage);
                     Rigidbody2D rb2d = collider.GetComponent<Rigidbody2D>();
                     if (rb2d != null)
