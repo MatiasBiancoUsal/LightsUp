@@ -8,8 +8,11 @@ public class EnergyBar : MonoBehaviour
 {
     public static EnergyBar instance;
 
-    public Image energyBarImage; 
+    public Image energyBarImage;
     public GameObject player;
+
+    private int collectedBatteries = 0; 
+    public float batteryEnergy = 20f; 
 
     private void Awake()
     {
@@ -23,7 +26,7 @@ public class EnergyBar : MonoBehaviour
 
     private void Update()
     {
-       
+        
         if (FlashlightManager.instance.flashlightEnergy > 0)
         {
             UpdateEnergyBar();
@@ -32,8 +35,12 @@ public class EnergyBar : MonoBehaviour
         {
             FlashlightManager.instance.FlashlightsOff();
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.R) && collectedBatteries > 0)
+        {
+            UseBattery();
+        }
+    }
 
     private void UpdateEnergyBar()
     {
@@ -43,4 +50,21 @@ public class EnergyBar : MonoBehaviour
         }
     }
 
+    public void CollectBattery()
+    {
+        collectedBatteries++;
+    }
+
+    private void UseBattery()
+    {
+        FlashlightManager.instance.flashlightEnergy += batteryEnergy;
+
+        if (FlashlightManager.instance.flashlightEnergy > FlashlightManager.instance.totalEnergy)
+        {
+            FlashlightManager.instance.flashlightEnergy = FlashlightManager.instance.totalEnergy;
+        }
+
+        collectedBatteries--;
+        UpdateEnergyBar();
+    }
 }
