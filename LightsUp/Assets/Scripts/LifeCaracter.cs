@@ -20,7 +20,7 @@ public class lifeCaracter : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this);
         }
     }
 
@@ -43,11 +43,11 @@ public class lifeCaracter : MonoBehaviour
         {
             if (i < lives)
             {
-                batteryBars[i].enabled = true;
+                batteryBars[i].gameObject.SetActive(true);
             }
             else
             {
-                batteryBars[i].enabled = false;
+                batteryBars[i].gameObject.SetActive(false);
             }
         }
     }
