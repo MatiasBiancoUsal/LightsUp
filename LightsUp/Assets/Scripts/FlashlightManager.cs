@@ -76,6 +76,14 @@ public class FlashlightManager : MonoBehaviour
         }
     }
 
+    public void spendEnergy(float amount)
+    {
+        flashlightEnergy -= amount;
+        if (flashlightEnergy <= 0)
+        {
+            flashlightEnergy = 0;
+        }
+    }
 
     public void FlashlightsOff()
     {

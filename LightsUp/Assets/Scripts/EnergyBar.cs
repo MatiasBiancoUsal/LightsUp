@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI; 
 
 public class EnergyBar : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class EnergyBar : MonoBehaviour
 
     public Image energyBarImage;
     public GameObject player;
+    public Text batteryCount; 
 
     private int collectedBatteries = 0; 
     public float batteryEnergy = 20f; 
@@ -22,11 +22,11 @@ public class EnergyBar : MonoBehaviour
     private void Start()
     {
         UpdateEnergyBar();
+        UpdateBatteryCount();
     }
 
     private void Update()
     {
-        
         if (FlashlightManager.instance.flashlightEnergy > 0)
         {
             UpdateEnergyBar();
@@ -53,6 +53,7 @@ public class EnergyBar : MonoBehaviour
     public void CollectBattery()
     {
         collectedBatteries++;
+        UpdateBatteryCount(); 
     }
 
     private void UseBattery()
@@ -64,7 +65,13 @@ public class EnergyBar : MonoBehaviour
             FlashlightManager.instance.flashlightEnergy = FlashlightManager.instance.totalEnergy;
         }
 
-        collectedBatteries--;
+        collectedBatteries--; 
+        UpdateBatteryCount(); 
         UpdateEnergyBar();
+    }
+
+    private void UpdateBatteryCount()
+    {
+        batteryCount.text = " " + collectedBatteries.ToString();
     }
 }
