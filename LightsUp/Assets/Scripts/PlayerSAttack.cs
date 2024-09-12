@@ -14,8 +14,9 @@ public class PlayerSAttack : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && FlashlightManager.instance.flashlightEnergy >= 10 )
         {
+            FlashlightManager.instance.spendEnergy(10);
             CameraShake.instance.ShakeCamera();
             Instantiate(specialAttackPrefab, PlayerMov.instance.transform.position, Quaternion.identity);
         }
