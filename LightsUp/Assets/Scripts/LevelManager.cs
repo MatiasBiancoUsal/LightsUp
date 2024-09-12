@@ -47,7 +47,13 @@ public class LevelManager : MonoBehaviour
     {
         PlayerMov.instance.gameObject.SetActive(false);
         
-        yield return new WaitForSeconds(waitToRespawn);
+        yield return new WaitForSeconds(waitToRespawn - (1f / UIController.instance.fadeSpeed));
+
+        UIController.instance.FadeToBlack();
+
+        yield return new WaitForSeconds((1f / UIController.instance.fadeSpeed) + .2f);
+
+        UIController.instance.FadeFromBlack();
 
         PlayerMov.instance.gameObject.SetActive(true);
 

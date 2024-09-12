@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerColliderCon : MonoBehaviour
+public class PlayerColliderController : MonoBehaviour
 {
     public PlayerMov player;
     public BoxCollider2D playerCollider;

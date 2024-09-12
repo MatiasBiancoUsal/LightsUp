@@ -16,6 +16,7 @@ public class PlayerSAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
+            CameraShake.instance.ShakeCamera();
             Instantiate(specialAttackPrefab, PlayerMov.instance.transform.position, Quaternion.identity);
         }
     }
