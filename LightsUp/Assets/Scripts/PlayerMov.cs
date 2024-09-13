@@ -104,7 +104,7 @@ public class PlayerMov : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) || isHeadHitting)
         {
             isCrouched = true;
-            animator.SetBool("Crouched", isCrouched);
+            //animator.SetBool("Crouched", isCrouched);
         }
 
         if (Input.GetKeyUp(KeyCode.C))
@@ -112,7 +112,7 @@ public class PlayerMov : MonoBehaviour
             if (!isHeadHitting)
             {
                 isCrouched = false;
-                animator.SetBool("Crouched", isCrouched);
+                //animator.SetBool("Crouched", isCrouched);
             }
         }
     }

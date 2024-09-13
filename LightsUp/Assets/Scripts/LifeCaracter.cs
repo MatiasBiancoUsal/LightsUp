@@ -32,8 +32,8 @@ public class lifeCaracter : MonoBehaviour
 
         if (lives <= 0)
         {
-            GameOver();
             isDead = true;  // Marcar como muerto si no quedan vidas
+            Invoke("GameOver", 1f);
         }
     }
 
@@ -65,7 +65,7 @@ public class lifeCaracter : MonoBehaviour
 
     void GameOver()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
