@@ -33,7 +33,7 @@ public class EnergyBar : MonoBehaviour
         }
         else
         {
-            FlashlightManager.instance.FlashlightsOff();
+            FlashlightManager.instance.FlashlightOff();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && collectedBatteries > 0)

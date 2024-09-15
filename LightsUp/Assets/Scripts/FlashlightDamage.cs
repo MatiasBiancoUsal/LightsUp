@@ -7,6 +7,7 @@ public class FlashlightDamage : MonoBehaviour
     public float flashlightAngle = 45f;
     public int numRays = 10;
     public float flashlightDamage;
+    public GameObject flashlightObject;
 
     void Update()
     {
@@ -15,7 +16,7 @@ public class FlashlightDamage : MonoBehaviour
 
     void DetectEnemyFlashlight()
     {
-        Vector3 origin = transform.position;
+        Vector3 origin = flashlightObject.transform.position;
 
         Vector3 direction = Vector2.right * transform.localScale.x;
 
@@ -23,6 +24,7 @@ public class FlashlightDamage : MonoBehaviour
         Vector3 rightVertex = origin + (Quaternion.Euler(0, 0, flashlightAngle / 2) * direction) * flashLightDistance;
 
         HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
+        HashSet<Collider2D> hitUV = new HashSet<Collider2D>();
 
         for (int i = 0; i <= numRays; i++)
         {
@@ -36,9 +38,19 @@ public class FlashlightDamage : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Enemy"))
                 {
-                    if (hitEnemies.Add(hit.collider) && FlashlightManager.instance.isFlashlight)
+                    if (hitEnemies.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightNormal)
                     {
                         hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
+                    }
+                }
+
+                if (hit.collider.CompareTag("UV"))
+                {
+                    Debug.Log("1");
+                    if(hitUV.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightUV)
+                    {
+                        hit.collider.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 255);
+                        hit.collider.GetComponent<BoxCollider2D>().isTrigger = false;
                     }
                 }
             }
@@ -48,7 +60,7 @@ public class FlashlightDamage : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Vector3 origin = transform.position;
+        Vector3 origin = flashlightObject.transform.position;
 
         Vector3 direction = Vector2.right * transform.localScale.x;
 
@@ -65,7 +77,26 @@ public class FlashlightDamage : MonoBehaviour
             Vector3 rayEnd = Vector2.Lerp(leftVertex, rightVertex, t);
             RaycastHit2D hit = Physics2D.Raycast(origin, (rayEnd - origin).normalized, flashLightDistance);
 
-            Gizmos.color = hit.collider != null && hit.collider.CompareTag("Enemy") ? Color.green : Color.red;
+            if (hit.collider != null)
+            {
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    Gizmos.color = Color.green;
+                }
+                else if (hit.collider.CompareTag("UV"))
+                {
+                    Gizmos.color = Color.cyan;
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                }
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+
             Gizmos.DrawLine(origin, rayEnd);
         }
 
