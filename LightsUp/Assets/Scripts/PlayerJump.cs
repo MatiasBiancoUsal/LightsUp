@@ -17,6 +17,8 @@ public class PlayerJump : MonoBehaviour
     public float groundCheckLength;
     public LayerMask groundMask;
 
+    private Animator animator;
+
     private void Awake()
     {
         Instance = this;
@@ -36,6 +38,8 @@ public class PlayerJump : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 canDoubleJump = false;  // Habilita el doble salto
+                
+                
             }
             else if (canDoubleJump)
             {

@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class FlashlightManager : MonoBehaviour
 {
-    public GameObject[] flashlight;
-    public int currentFlashlight = 0;
-    public bool isFlashlight = false;
+    public GameObject FlashlightNormal;
+    public GameObject FlashlightUV;
+    public GameObject FlashlightIR;
+
     public float flashlightEnergy = 100f;
     public float totalEnergy;
-    public static FlashlightManager instance;
-    // Start is called before the first frame update
 
+    public static FlashlightManager instance;
+
+    public enum FlashlightState
+    {
+        FlashlightNormal,
+        FlashlightUV,
+        FlashlightIR
+    }
+
+    public static FlashlightState flashlightState;
+    public bool isFlashlightOn;
 
     void Awake()
     {
@@ -20,51 +30,104 @@ public class FlashlightManager : MonoBehaviour
 
     void Start()
     {
-        totalEnergy = flashlightEnergy;    
+        totalEnergy = flashlightEnergy;
+        flashlightState = FlashlightState.FlashlightNormal; // Default to the first flashlight
+        isFlashlightOn = false;
+        setFlashlightState(flashlightState); // Ensure initial flashlight state
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!PauseMenu.instance.isPaused)
         {
-            if (isFlashlight)
-            {
-                flashlightEnergy -= 1f * Time.deltaTime;
-            }
+            handleFlashlightState();
+            handleInput();
+        }
+    }
 
-            if (Input.GetKeyDown(KeyCode.F) && flashlightEnergy > 0)
+    private void handleFlashlightState()
+    {
+        if (isFlashlightOn)
+        {
+            flashlightEnergy -= 1f * Time.deltaTime;
+            if (flashlightEnergy <= 0)
             {
-                if (isFlashlight)
-                {
-                    FlashlightsOff();
-                    isFlashlight = false;
-                }
-                else
-                {
-                    flashlight[currentFlashlight].SetActive(true);
-                    isFlashlight = true;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-
-                FlashlightsOff();
-                if (currentFlashlight >= flashlight.Length - 1)
-                {
-                    currentFlashlight = 0;
-                }
-                else
-                {
-                    currentFlashlight++;
-                }
-                if (isFlashlight)
-                {
-                    flashlight[currentFlashlight].SetActive(true);
-                }
+                flashlightEnergy = 0;
+                isFlashlightOn = false;
+                FlashlightOff(); // Ensure the flashlight is turned off
             }
         }
+    }
+
+    private void handleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && flashlightEnergy > 0)
+        {
+            toggleFlashlight();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            switchFlashlight();
+        }
+    }
+
+    public void toggleFlashlight()
+    {
+        if (isFlashlightOn)
+        {
+            FlashlightOff();
+            isFlashlightOn = false;
+        }
+        else
+        {
+            isFlashlightOn = true;
+            setFlashlightState(flashlightState);
+        }
+    }
+
+    public void switchFlashlight()
+    {
+
+        switch (flashlightState)
+        {
+            case FlashlightState.FlashlightNormal:
+                flashlightState = FlashlightState.FlashlightUV;
+                break;
+            case FlashlightState.FlashlightUV:
+                flashlightState = FlashlightState.FlashlightIR;
+                break;
+            case FlashlightState.FlashlightIR:
+                flashlightState = FlashlightState.FlashlightNormal;
+                break;
+        }
+
+        setFlashlightState(flashlightState);
+    }
+
+    private void setFlashlightState(FlashlightState state)
+    {
+        FlashlightOff(); // Ensure all flashlights are off before setting the new state
+
+        switch (state)
+        {
+            case FlashlightState.FlashlightNormal:
+                FlashlightNormal.SetActive(isFlashlightOn);
+                break;
+            case FlashlightState.FlashlightUV:
+                FlashlightUV.SetActive(isFlashlightOn);
+                break;
+            case FlashlightState.FlashlightIR:
+                FlashlightIR.SetActive(isFlashlightOn);
+                break;
+        }
+    }
+
+    public void FlashlightOff()
+    {
+        FlashlightNormal.SetActive(false);
+        FlashlightUV.SetActive(false);
+        FlashlightIR.SetActive(false);
     }
 
     public void addEnergy(float amount)
@@ -76,12 +139,12 @@ public class FlashlightManager : MonoBehaviour
         }
     }
 
-
-    public void FlashlightsOff()
+    public void spendEnergy(float amount)
     {
-        for (int i = 0; i < flashlight.Length; i++)
+        flashlightEnergy -= amount;
+        if (flashlightEnergy < 0)
         {
-            flashlight[i].SetActive(false);
+            flashlightEnergy = 0;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Hierarchy;
@@ -14,6 +15,8 @@ public class SpecialAttack : MonoBehaviour
     private Vector3 initialScale;
     private float elapsedTime = 0f;
 
+    public GameObject specialAttackEffect; 
+
     private SpriteRenderer spriteRenderer;
 
     HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
@@ -27,6 +30,7 @@ public class SpecialAttack : MonoBehaviour
 
     private IEnumerator Explode()
     {
+        GameObject specialAttackAnimation = Instantiate(specialAttackEffect, PlayerMov.instance.transform.position, Quaternion.identity);
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
@@ -37,9 +41,11 @@ public class SpecialAttack : MonoBehaviour
             yield return null;
         }
 
+        Destroy(specialAttackAnimation);
         Destroy(gameObject);
-
     }
+
+
 
     private void DealDamage(float scale)
     {

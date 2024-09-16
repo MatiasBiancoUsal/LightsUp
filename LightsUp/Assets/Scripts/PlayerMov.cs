@@ -14,6 +14,8 @@ public class PlayerMov : MonoBehaviour
     public float Horizontal;
 
     public bool isRunning;
+   // public bool isWalking;
+
 
     [Header("Roll")]
     public bool isRolling = false;
@@ -76,6 +78,9 @@ public class PlayerMov : MonoBehaviour
             {
                 isRunning = true;
                 speed = speedRun;
+              //  isWalking = false;
+                // animator.SetBool("isRunning", true);
+              //  animator.SetBool("isRunning", !isWalking);
             }
             else if (isCrouched)
             {
@@ -85,6 +90,7 @@ public class PlayerMov : MonoBehaviour
             {
                 isRunning = false;
                 speed = speedWalk;
+               // animator.SetBool("isWalking", !isRunning);
             }
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
@@ -98,7 +104,7 @@ public class PlayerMov : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) || isHeadHitting)
         {
             isCrouched = true;
-            animator.SetBool("Crouched", isCrouched);
+            //animator.SetBool("Crouched", isCrouched);
         }
 
         if (Input.GetKeyUp(KeyCode.C))
@@ -106,7 +112,7 @@ public class PlayerMov : MonoBehaviour
             if (!isHeadHitting)
             {
                 isCrouched = false;
-                animator.SetBool("Crouched", isCrouched);
+                //animator.SetBool("Crouched", isCrouched);
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class lifeCaracter : MonoBehaviour
@@ -19,7 +20,7 @@ public class lifeCaracter : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this);
         }
     }
 
@@ -31,8 +32,8 @@ public class lifeCaracter : MonoBehaviour
 
         if (lives <= 0)
         {
-            GameOver();
             isDead = true;  // Marcar como muerto si no quedan vidas
+            Invoke("GameOver", 1f);
         }
     }
 
@@ -42,11 +43,11 @@ public class lifeCaracter : MonoBehaviour
         {
             if (i < lives)
             {
-                batteryBars[i].enabled = true;
+                batteryBars[i].gameObject.SetActive(true);
             }
             else
             {
-                batteryBars[i].enabled = false;
+                batteryBars[i].gameObject.SetActive(false);
             }
         }
     }
@@ -64,8 +65,7 @@ public class lifeCaracter : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over");
-        // Aquí puedes agregar cualquier lógica adicional para el game over
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
