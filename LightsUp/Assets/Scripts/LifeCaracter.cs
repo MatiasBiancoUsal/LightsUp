@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class lifeCaracter : MonoBehaviour
+public class LifeCaracter : MonoBehaviour
 {
-    public static lifeCaracter instance;
+    public static LifeCaracter instance;
 
     public int lives = 3;  // Número de vidas
     public Image[] batteryBars;
@@ -24,14 +24,20 @@ public class lifeCaracter : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    // Método modificado para recibir un valor de daño
+    public void ReceiveDamage(float damage)
     {
-        lives--;
+        // Asumimos que cada vida representa una cantidad fija de salud
+        // Puedes ajustar esto según tu lógica de juego
+        int damageAsLives = Mathf.CeilToInt(damage);
+
+        lives -= damageAsLives;
 
         UpdateBatteryDisplay();
 
         if (lives <= 0)
         {
+            lives = 0;  // Asegura que las vidas no sean negativas
             isDead = true;  // Marcar como muerto si no quedan vidas
             Invoke("GameOver", 1f);
         }
@@ -54,7 +60,8 @@ public class lifeCaracter : MonoBehaviour
 
     public void Fall()
     {
-        TakeDamage();
+        // Puedes ajustar el daño recibido aquí si es necesario
+        ReceiveDamage(1);  // Asume que caer causa 1 unidad de daño
         Respawn();
     }
 
@@ -72,10 +79,12 @@ public class lifeCaracter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage();
+            // Ajusta el valor de daño según el enemigo
+            ReceiveDamage(1);  // Asume que el contacto con un enemigo causa 1 unidad de daño
         }
     }
 }
+
 
 
 
