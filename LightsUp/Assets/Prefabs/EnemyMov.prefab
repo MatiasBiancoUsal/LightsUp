@@ -106,9 +106,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2628050828401635627}
   - component: {fileID: 6823121137727645301}
-  - component: {fileID: 6349008745670939217}
   - component: {fileID: 846206469878206401}
   - component: {fileID: 3652781947251738574}
+  - component: {fileID: 6349008745670939217}
+  - component: {fileID: 5496349128436600065}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -185,22 +186,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6349008745670939217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5966240383746393440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 028faac5ac0528848b5de9c78e916ff4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 100
-  PointA: {fileID: 2198736571981556501}
-  PointB: {fileID: 3424990388337672763}
-  speed: 3
 --- !u!61 &846206469878206401
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -274,3 +259,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6349008745670939217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5966240383746393440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 028faac5ac0528848b5de9c78e916ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointA: {fileID: 2198736571981556501}
+  PointB: {fileID: 3424990388337672763}
+  speed: 3
+--- !u!114 &5496349128436600065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5966240383746393440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664254afdfc6eb747896a668862b1068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDrop: {fileID: 8217298769938415441, guid: 92fc1fb8949d8cb4996871516ef0141d, type: 3}
+  dropPoint: {fileID: 2628050828401635627}
