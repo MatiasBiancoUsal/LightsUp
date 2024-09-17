@@ -52,7 +52,7 @@ public class PlayerMov : MonoBehaviour
     void Update()
     {
         // Actualizar el valor de isDead desde lifeCaracter
-        isDead = lifeCaracter.instance.isDead;
+        isDead = LifeCaracter.instance.isDead;
 
         if (!PauseMenu.instance.isPaused && !isDead)  // Asegurarse de que el jugador no se mueva si está muerto
         {
