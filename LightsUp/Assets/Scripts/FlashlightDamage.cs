@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class FlashlightDamage : MonoBehaviour
 {
-    public float flashLightDistance = 5f; 
-    public float flashlightAngle = 45f;
+    public static FlashlightDamage Instance;
+
+    public float flashLightDistance; 
+    public float flashlightAngle;
     public int numRays = 10;
     public float flashlightDamage;
     public GameObject flashlightObject;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Update()
     {
