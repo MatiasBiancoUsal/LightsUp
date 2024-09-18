@@ -12,14 +12,14 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
-        // Si está en estado de apertura, activa la animación de apertura
+        
         if (_isOpening)
         {
             _animator.SetTrigger("Open");
         }
         else
         {
-            // Si no está en estado de apertura, activa la animación de "Door_Idle"
+            
             _animator.SetTrigger("Idle");
         }
     }
