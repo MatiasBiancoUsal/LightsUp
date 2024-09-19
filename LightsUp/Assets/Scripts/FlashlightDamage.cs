@@ -53,7 +53,6 @@ public class FlashlightDamage : MonoBehaviour
 
                 if (hit.collider.CompareTag("UV"))
                 {
-                    Debug.Log("1");
                     if(hitUV.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightUV)
                     {
                         hit.collider.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 255);

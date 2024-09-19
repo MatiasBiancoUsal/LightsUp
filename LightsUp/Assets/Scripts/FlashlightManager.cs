@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class FlashlightManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class FlashlightManager : MonoBehaviour
 
     public static FlashlightState flashlightState;
     public bool isFlashlightOn;
+
+    public string[] enemyTags = { "Enemy" };
 
     void Awake()
     {
@@ -55,6 +58,91 @@ public class FlashlightManager : MonoBehaviour
                 flashlightEnergy = 0;
                 isFlashlightOn = false;
                 FlashlightOff(); // Ensure the flashlight is turned off
+            }
+
+            if (flashlightState == FlashlightState.FlashlightIR)
+            {
+                GameObject scenery = GameObject.Find("Scenery");
+
+                if (scenery != null)
+                {
+                    Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
+                    Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
+
+                    foreach (Renderer rend in allRenderers)
+                    {
+                        foreach (Material mat in rend.materials)
+                        {
+                            if (mat.HasProperty("_Color"))
+                            {
+                                Color color = mat.color;
+                                color.a = Mathf.Clamp01(0.5f);
+                                mat.color = color;
+                            }
+                        }
+                    }
+
+                    foreach (Transform transform in allTransforms)
+                    {
+                        GameObject gameObject = transform.gameObject;
+                        if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = false;
+                    }
+                }
+
+                foreach (string enemyTag in enemyTags)
+                {
+                    GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+
+                    foreach (GameObject enemy in enemies)
+                    {
+                        enemy.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                ExitIR();
+            }
+        }
+        
+    }
+
+    private void ExitIR()
+    {
+        GameObject scenery = GameObject.Find("Scenery");
+
+        if (scenery != null)
+        {
+            Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
+            Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
+
+            foreach (Renderer rend in allRenderers)
+            {
+                foreach (Material mat in rend.materials)
+                {
+                    if (mat.HasProperty("_Color"))
+                    {
+                        Color color = mat.color;
+                        color.a = Mathf.Clamp01(1f);
+                        mat.color = color;
+                    }
+                }
+            }
+
+            foreach (Transform transform in allTransforms)
+            {
+                GameObject gameObject = transform.gameObject;
+                if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = true;
+            }
+        }
+
+        foreach (string enemyTag in enemyTags)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+
+            foreach (GameObject enemy in enemies)
+            {
+                enemy.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
     }
@@ -128,6 +216,7 @@ public class FlashlightManager : MonoBehaviour
         FlashlightNormal.SetActive(false);
         FlashlightUV.SetActive(false);
         FlashlightIR.SetActive(false);
+        ExitIR();
     }
 
     public void addEnergy(float amount)
