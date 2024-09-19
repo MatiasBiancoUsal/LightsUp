@@ -3,14 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float detectionRange = 5f; // Distancia para detectar al jugador
-    public float chaseRange = 3f;      // Distancia para atrapar al jugador
-    public float speed = 2f;            // Velocidad del enemigo
-    public Transform player;            // Referencia al jugador
-    public Animator animator;           // Componente Animator
-    public float groundYLevel;          // Altura deseada en Y para el enemigo
+    public float detectionRange = 5f; 
+    public float chaseRange = 3f;      
+    public float speed = 2f;            
+    public Transform player;            
+    public Animator animator;           
+    public float groundYLevel;          
 
-    private Vector2 startPosition;      // Posición inicial del enemigo
+    private Vector2 startPosition;      
     private bool isPlayerDetected = false;
 
     void Start()
@@ -54,7 +54,7 @@ public class EnemyAI : MonoBehaviour
 
         if (Vector2.Distance(transform.position, startPosition) < 0.1f)
         {
-            transform.position = startPosition; // Asegura que vuelva exactamente a la posición inicial
+            transform.position = startPosition; 
             animator.SetTrigger("ToIdle");
         }
     }
@@ -62,24 +62,23 @@ public class EnemyAI : MonoBehaviour
     void KeepOnGround()
     {
         Vector3 position = transform.position;
-        position.y = groundYLevel; // Mantiene al enemigo en la altura deseada
+        position.y = groundYLevel; 
         transform.position = position;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // Asegúrate de que el jugador tenga la etiqueta "Player"
+        if (collision.CompareTag("Player")) 
         {
-            // Activar la animación de ataque
+            
             animator.SetTrigger("ToAttack");
 
-            // Llama a la función de recarga de escena después de un tiempo
-            Invoke("ReloadScene", 1f); // Ajusta el tiempo según la duración de la animación
+            Invoke("ReloadScene", 1f); 
         }
     }
 
     void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Recarga la escena actual
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
     }
 }
