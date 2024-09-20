@@ -12,10 +12,10 @@ public class BrokenKey : MonoBehaviour
     public int totalKeysRequired = 3;
     public DoorKey door;
     [SerializeField] TextMeshProUGUI textMesh;
-    [SerializeField] RawImage rawImage;       
-    [SerializeField] VideoPlayer videoPlayer;
+    //[SerializeField] RawImage rawImage;       
+    //[SerializeField] VideoPlayer videoPlayer;
 
-    private bool hasPlayedVideo = false;
+    //private bool hasPlayedVideo = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,14 +31,29 @@ public class BrokenKey : MonoBehaviour
 
         }
 
-        if (keysCollected >= totalKeysRequired && !hasPlayedVideo)
+        if (keysCollected >= totalKeysRequired /*&& !hasPlayedVideo*/)
         {
-            hasPlayedVideo = true;
-            Invoke("PlayVideo", 1f);
+            //hasPlayedVideo = true;
+            //Invoke("PlayVideo", 1f);
+
+            if (door != null)
+            {
+                DoorKey doorKey = door.GetComponent<DoorKey>();
+
+                if (doorKey != null)
+                {
+                    door.SetIsOpening(true);
+                }
+            }
+
+            if (textMesh != null)
+            {
+                Destroy(textMesh.gameObject);
+            }
         }
     }
 
-    void PlayVideo()
+    /*void PlayVideo()
     {
    
         rawImage.gameObject.SetActive(true);
@@ -72,6 +87,6 @@ public class BrokenKey : MonoBehaviour
             Destroy(textMesh.gameObject);
         }
 
-    }
+    }*/
 
 }
