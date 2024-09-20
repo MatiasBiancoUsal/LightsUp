@@ -15,7 +15,7 @@ public class BrokenKey : MonoBehaviour
     [SerializeField] RawImage rawImage;       
     [SerializeField] VideoPlayer videoPlayer;
 
-
+    private bool hasPlayedVideo = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,8 +31,9 @@ public class BrokenKey : MonoBehaviour
 
         }
 
-        if (keysCollected >= totalKeysRequired)
+        if (keysCollected >= totalKeysRequired && !hasPlayedVideo)
         {
+            hasPlayedVideo = true;
             Invoke("PlayVideo", 1f);
         }
     }
@@ -70,6 +71,7 @@ public class BrokenKey : MonoBehaviour
         {
             Destroy(textMesh.gameObject);
         }
+
     }
 
 }
