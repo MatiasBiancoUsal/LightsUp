@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class FlyingEnemy : MonoBehaviour
 {
     public float speed = 3f; // Velocidad de movimiento del enemigo

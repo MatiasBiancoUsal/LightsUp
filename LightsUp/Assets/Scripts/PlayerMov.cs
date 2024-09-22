@@ -34,7 +34,8 @@ public class PlayerMov : MonoBehaviour
 
     private bool windZone;
 
-    // Booleano para saber si el personaje está sin vidas
+    public bool stopInput;
+
     public bool isDead = false;
 
     private void Awake()
@@ -51,10 +52,9 @@ public class PlayerMov : MonoBehaviour
 
     void Update()
     {
-        // Actualizar el valor de isDead desde lifeCaracter
         isDead = LifeCaracter.instance.isDead;
 
-        if (!PauseMenu.instance.isPaused && !isDead)  // Asegurarse de que el jugador no se mueva si está muerto
+        if (!PauseMenu.instance.isPaused && !isDead && !stopInput)
         {
             Horizontal = Input.GetAxis("Horizontal");
 
@@ -72,7 +72,7 @@ public class PlayerMov : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isRolling && !isDead)  // Evitar que se mueva si está muerto
+        if (!isRolling && !isDead)
         {
             if (Input.GetKey(KeyCode.LeftShift) && !isCrouched && !windZone)
             {

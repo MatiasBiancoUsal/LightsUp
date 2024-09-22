@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: d09281a43e582b74294ac3dcd8803a84
+guid: 5a6871b6a89acc54085a6697949929ee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7174785534158793435
-    second: hoja 3_0
+      213: 7062154462313776553
+    second: arbusto 3_0
+  - first:
+      213: -398799338512632828
+    second: arbusto 3_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +99,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hoja 3_0
+      name: arbusto 3_0
       rect:
         serializedVersion: 2
-        x: 213
-        y: 251
-        width: 1242
-        height: 1886
+        x: 13
+        y: 18
+        width: 1655
+        height: 1461
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,8 +130,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bda652ffd65f19360800000000000000
-      internalID: 7174785534158793435
+      spriteID: 9a5072b0110d10260800000000000000
+      internalID: 7062154462313776553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arbusto 3_1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 356
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4043b435d1e277af0800000000000000
+      internalID: -398799338512632828
       vertices: []
       indices: 
       edges: []
@@ -131,7 +168,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hoja 3_0: 7174785534158793435
+      arbusto 3_0: 7062154462313776553
+      arbusto 3_1: -398799338512632828
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

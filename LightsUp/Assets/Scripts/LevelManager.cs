@@ -59,4 +59,22 @@ public class LevelManager : MonoBehaviour
 
         PlayerMov.instance.transform.position = CheckpointController.instance.spawnPoint;
     }
+
+    public void EndLevel()
+    {
+        StartCoroutine(EndLevelCo());
+    }
+
+    public IEnumerator EndLevelCo()
+    {
+        PlayerMov.instance.stopInput = true;
+
+        yield return new WaitForSeconds(1f);
+
+        UIController.instance.FadeToBlack();
+
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene(levelToLoad);
+    }
 }
