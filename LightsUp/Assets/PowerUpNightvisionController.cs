@@ -33,8 +33,8 @@ public class PowerUpNightvisionController : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        globalLight.SetActive(true);
         nightvisionLight.SetActive(false);
+        globalLight.SetActive(true);
 
         Destroy(gameObject);
     }
