@@ -22,6 +22,8 @@ public class PowerUpController : MonoBehaviour
 
         circleCollider.enabled = false;
 
+        PopupWindow.instance.AddToQueue("+ Daño");
+
         FlashlightDamage.Instance.flashLightDistance = 20f;
 
         FlashlightDamage.Instance.flashlightDamage = 1.5f;
