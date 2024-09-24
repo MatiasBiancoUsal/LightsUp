@@ -1,67 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerPushPull : MonoBehaviour
 {
-    public float rayDistance = 5f;
-    private GameObject pulledObject;
-    private bool isPulling = false;
-    public LayerMask Pushable;
+    public GameObject box;
+    private bool isHoldingBox = false;
+    private Collider2D currentBoxCollider;
 
     void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, rayDistance, Pushable);
-
-        if (Input.GetKeyDown(KeyCode.E) && hit.collider != null)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (pulledObject == null)
+            if (!isHoldingBox && currentBoxCollider != null)
             {
-                pulledObject = hit.collider.gameObject;
-                isPulling = true;
+                GrabBox();
             }
-            else if (pulledObject == hit.collider.gameObject)
+            else if (isHoldingBox)
             {
-                StopDragging();
+                ReleaseBox();
             }
         }
 
-        else if (Input.GetKeyUp(KeyCode.E))
+        if (isHoldingBox)
         {
-            isPulling = false;
-        }
-
-        if (isPulling && pulledObject != null)
-        {
-            Drag();
+            DragBox();
         }
     }
 
-    void Drag()
+    void GrabBox()
     {
-        Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), 0);
+        box = currentBoxCollider.gameObject;
+        isHoldingBox = true;
+        box.GetComponent<BoxCollider2D>().enabled = false;
+        box.GetComponent<Rigidbody2D>().isKinematic = true;
+    }
 
-        if (pulledObject != null)
+    void ReleaseBox()
+    {
+        if (box != null)
         {
-            Rigidbody2D rb = pulledObject.GetComponent<Rigidbody2D>();
-            rb.velocity = moveDirection * 3f;
+            isHoldingBox = false;
+            box.GetComponent<BoxCollider2D>().enabled = true;
+            box.GetComponent<Rigidbody2D>().isKinematic = false;
+            box = null;
+            currentBoxCollider = null;
         }
     }
 
-    void StopDragging()
+    void DragBox()
     {
-        if (pulledObject != null)
+        if (box != null)
         {
-            Rigidbody2D rb = pulledObject.GetComponent<Rigidbody2D>();
-            rb.velocity = Vector3.zero;
-            pulledObject = null;
-            isPulling = false;
+            float offsetX = (box.transform.position.x < transform.position.x) ? -1.1f : 1.1f;
+            box.transform.position = new Vector2(transform.position.x + offsetX, box.transform.position.y);
         }
     }
 
-    private void OnDrawGizmos()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * rayDistance);
+        if (collision.collider.CompareTag("Box"))
+        {
+            currentBoxCollider = collision.collider;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Box"))
+        {
+
+            currentBoxCollider = null;
+        }
     }
 }
+
