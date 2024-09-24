@@ -48,9 +48,14 @@ public class BrokenKey : MonoBehaviour
 
             if (textMesh != null)
             {
-                Destroy(textMesh.gameObject);
+                Invoke("DestroyText", 1f);
             }
         }
+    }
+
+    void DestroyText()
+    {
+        Destroy(textMesh.gameObject);
     }
 
     /*void PlayVideo()

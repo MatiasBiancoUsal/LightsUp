@@ -1322,6 +1322,7 @@ GameObject:
   - component: {fileID: -3734291187730852838}
   - component: {fileID: 1714495643664715901}
   - component: {fileID: 2175932344003960823}
+  - component: {fileID: -2740307954092787331}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1545,10 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a57aeeea94ec1448be0927da1127ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayDistance: 1
-  Pushable:
-    serializedVersion: 2
-    m_Bits: 256
+  box: {fileID: 0}
 --- !u!114 &2790111533461326517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,6 +1627,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialAttackPrefab: {fileID: 7720600545810529553, guid: e59ac0eaaa0535940a8e36a55577a106, type: 3}
+--- !u!114 &-2740307954092787331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6770727307064213517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e7300d2886a70488962d77fa4846cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keysCollected: 0
+  totalKeysRequired: 3
+  door: {fileID: 0}
+  textMesh: {fileID: 0}
 --- !u!1 &6777435581605100530
 GameObject:
   m_ObjectHideFlags: 0
