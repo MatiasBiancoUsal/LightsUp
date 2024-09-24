@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 
-public class PowerUpController : MonoBehaviour
+public class PowerUpNightvisionController : MonoBehaviour
 {
     public SpriteRenderer powerUpSpriteRenderer;
     public CircleCollider2D circleCollider;
+
+    public GameObject globalLight;
+    public GameObject nightvisionLight;
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -22,21 +26,15 @@ public class PowerUpController : MonoBehaviour
 
         circleCollider.enabled = false;
 
-        PopupWindow.instance.AddToQueue("+ Daño");
+        PopupWindow.instance.AddToQueue("Vision nocturna");
 
-        FlashlightDamage.Instance.flashLightDistance = 20f;
+        globalLight.SetActive(false);
+        nightvisionLight.SetActive(true);
 
-        FlashlightDamage.Instance.flashlightDamage = 1.5f;
+        yield return new WaitForSeconds(10f);
 
-        FlashlightDamage.Instance.flashlightAngle = 60f;
-
-        yield return new WaitForSeconds(20f);
-
-        FlashlightDamage.Instance.flashLightDistance = 10f;
-
-        FlashlightDamage.Instance.flashlightDamage = .7f;
-
-        FlashlightDamage.Instance.flashlightAngle = 40f;
+        globalLight.SetActive(true);
+        nightvisionLight.SetActive(false);
 
         Destroy(gameObject);
     }

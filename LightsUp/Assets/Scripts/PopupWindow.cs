@@ -35,7 +35,7 @@ public class PopupWindow : MonoBehaviour
             queueChecker = StartCoroutine(CheckQueue());
     }
 
-    private void ShowPopup(string text)
+    public void ShowPopup(string text)
     { 
         window.SetActive(true);
         popupText.text = text;
