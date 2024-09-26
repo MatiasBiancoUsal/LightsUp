@@ -8,7 +8,7 @@ public class Killzone : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            LifeCaracter.instance.Fall();
+            PlayerHealth.instance.Fall();
         }
     }
 }

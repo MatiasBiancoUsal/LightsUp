@@ -25,7 +25,7 @@ public class FlyingEnemy : MonoBehaviour
     private FlashlightManager flashlightManager;
 
     // Referencia al script LifeCaracter
-    private LifeCaracter playerLife;
+    private PlayerHealth playerHealth;
 
     // Componente SpriteRenderer del enemigo
     private SpriteRenderer spriteRenderer;
@@ -43,7 +43,7 @@ public class FlyingEnemy : MonoBehaviour
         // Encuentra el componente LifeCaracter en el jugador
         if (player != null)
         {
-            playerLife = player.GetComponent<LifeCaracter>();
+            playerHealth = player.GetComponent<PlayerHealth>();
         }
 
         // Obtiene el componente SpriteRenderer del enemigo
@@ -56,7 +56,7 @@ public class FlyingEnemy : MonoBehaviour
     private void Update()
     {
         // Verifica si el script FlashlightManager y el jugador existen
-        if (flashlightManager == null || player == null || playerLife == null)
+        if (flashlightManager == null || player == null)
             return;
 
         // Si el retroceso está activo, continúa retrocediendo

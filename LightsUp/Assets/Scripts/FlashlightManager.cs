@@ -34,9 +34,9 @@ public class FlashlightManager : MonoBehaviour
     void Start()
     {
         totalEnergy = flashlightEnergy;
-        flashlightState = FlashlightState.FlashlightNormal; // Default to the first flashlight
+        flashlightState = FlashlightState.FlashlightNormal;
         isFlashlightOn = false;
-        setFlashlightState(flashlightState); // Ensure initial flashlight state
+        setFlashlightState(flashlightState);
     }
 
     void Update()
@@ -57,7 +57,7 @@ public class FlashlightManager : MonoBehaviour
             {
                 flashlightEnergy = 0;
                 isFlashlightOn = false;
-                FlashlightOff(); // Ensure the flashlight is turned off
+                FlashlightOff();
             }
 
             if (flashlightState == FlashlightState.FlashlightIR)

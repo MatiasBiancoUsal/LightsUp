@@ -36,8 +36,6 @@ public class PlayerMov : MonoBehaviour
 
     public bool stopInput;
 
-    public bool isDead = false;
-
     private void Awake()
     {
         instance = this;
@@ -52,9 +50,8 @@ public class PlayerMov : MonoBehaviour
 
     void Update()
     {
-        isDead = LifeCaracter.instance.isDead;
 
-        if (!PauseMenu.instance.isPaused && !isDead && !stopInput)
+        if (!PauseMenu.instance.isPaused && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive && !stopInput)
         {
             Horizontal = Input.GetAxis("Horizontal");
 
@@ -72,7 +69,7 @@ public class PlayerMov : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isRolling && !isDead)
+        if (!isRolling && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive)
         {
             if (Input.GetKey(KeyCode.LeftShift) && !isCrouched && !windZone)
             {

@@ -45,8 +45,6 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator RespawnCo()
     {
-        PlayerMov.instance.gameObject.SetActive(false);
-        
         yield return new WaitForSeconds(waitToRespawn - (1f / UIController.instance.fadeSpeed));
 
         UIController.instance.FadeToBlack();
@@ -55,9 +53,9 @@ public class LevelManager : MonoBehaviour
 
         UIController.instance.FadeFromBlack();
 
-        PlayerMov.instance.gameObject.SetActive(true);
-
         PlayerMov.instance.transform.position = CheckpointController.instance.spawnPoint;
+
+        PlayerHealth.instance.resetPlayerHealth();
     }
 
     public void EndLevel()
