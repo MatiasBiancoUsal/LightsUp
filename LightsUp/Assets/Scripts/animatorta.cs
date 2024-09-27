@@ -54,14 +54,14 @@ public class animatorta : MonoBehaviour
             animator.SetBool("isJumping", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            animator.SetBool("isCrawling", true);
-        }
+      //  if (Input.GetKeyDown(KeyCode.C))
+      //  {
+        //    animator.SetBool("isCrawling", true);
+        //}
 
-        else if(Input.GetKeyDown(KeyCode.C))
-        {
-            animator.SetBool("isCrawling", false);
-        }
+        //else if(Input.GetKeyDown(KeyCode.C))
+        //{
+          //  animator.SetBool("isCrawling", false);
+        //}
     }
 }
