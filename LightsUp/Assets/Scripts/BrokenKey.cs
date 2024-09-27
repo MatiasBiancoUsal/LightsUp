@@ -7,44 +7,28 @@ using UnityEngine.UI;
 
 public class BrokenKey : MonoBehaviour
 {
- 
-    public int keysCollected = 0;  
+    public int keysCollected = 0;
     public int totalKeysRequired = 3;
     public DoorKey door;
     [SerializeField] TextMeshProUGUI textMesh;
-    //[SerializeField] RawImage rawImage;       
-    //[SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] GameObject AnimBrokenKey;
 
-    //private bool hasPlayedVideo = false;
+    private bool hasPlayedVideo = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
         if (collision.gameObject.CompareTag("Key"))
         {
-
-           
             keysCollected++;
             textMesh.text = keysCollected.ToString();
-    
             Destroy(collision.gameObject);
-
         }
 
-        if (keysCollected >= totalKeysRequired /*&& !hasPlayedVideo*/)
+        if (keysCollected >= totalKeysRequired && !hasPlayedVideo)
         {
-            //hasPlayedVideo = true;
-            //Invoke("PlayVideo", 1f);
-
-            if (door != null)
-            {
-                DoorKey doorKey = door.GetComponent<DoorKey>();
-
-                if (doorKey != null)
-                {
-                    door.SetIsOpening(true);
-                }
-            }
+            hasPlayedVideo = true;
+            Invoke("PlayVideo", 0f);
+            Invoke("OpenDoor", 9f);
 
             if (textMesh != null)
             {
@@ -58,40 +42,29 @@ public class BrokenKey : MonoBehaviour
         Destroy(textMesh.gameObject);
     }
 
-    /*void PlayVideo()
+    void PlayVideo()
     {
-   
-        rawImage.gameObject.SetActive(true);
-
-
-        if (videoPlayer != null)
+        if (AnimBrokenKey != null)
         {
-            videoPlayer.Play();        
-            videoPlayer.loopPointReached += OnVideoEnd;
+            Animator animator = AnimBrokenKey.GetComponent<Animator>();
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Play");
+            }
         }
     }
-
-    void OnVideoEnd(VideoPlayer vp)
-    {   
-        rawImage.gameObject.SetActive(false);
-
-        //GameObject door = GameObject.FindGameObjectWithTag("DoorMultipleKey");
-
+    public void OpenDoor()
+    {
         if (door != null)
         {
-            DoorKey doorKey = door.GetComponent <DoorKey>();
+            DoorKey doorKey = door.GetComponent<DoorKey>();
 
             if (doorKey != null)
             {
-               door.SetIsOpening(true);
+                door.SetIsOpening(true);
             }
         }
-
-        if (textMesh != null)
-        {
-            Destroy(textMesh.gameObject);
-        }
-
-    }*/
-
+    }
 }
+
