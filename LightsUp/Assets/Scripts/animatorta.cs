@@ -6,26 +6,21 @@ using static UnityEngine.Rendering.DebugUI.Table;
 public class animatorta : MonoBehaviour
 {
     private Animator animator;
-    private PlayerMov playerMov; // Reference to the PlayerMov script
-    private PlayerJump playerJump; // Reference to the PlayerJump script
 
     void Start()
     {
-        // Get references to the animator, PlayerMov, and PlayerJump components
         animator = GetComponent<Animator>();
-        playerMov = PlayerMov.instance;
-        playerJump = PlayerJump.Instance;
+
     }
 
     void Update()
     {
-        // Update animator parameters based on the player movement script
 
         // Set the running animation
-        animator.SetBool("isRunning", playerMov.isRunning);
+        animator.SetBool("isRunning", PlayerMov.instance.isRunning);
 
         // Set the idle animation when the player is not moving
-        if (playerMov.Horizontal == 0 && playerJump.GroundDetect())
+        if (PlayerMov.instance.Horizontal == 0 && PlayerMov.instance.GroundDetect())
         {
             animator.SetBool("isIdle", true);
         }
@@ -35,7 +30,7 @@ public class animatorta : MonoBehaviour
         }
 
         // Transition to walking/running when the player is moving
-        if (playerMov.Horizontal != 0 && !playerMov.isRunning)
+        if (PlayerMov.instance.Horizontal != 0 && !PlayerMov.instance.isRunning)
         {
             animator.SetBool("isWalking", true);
         }
@@ -45,7 +40,7 @@ public class animatorta : MonoBehaviour
         }
 
         // Set the jumping animation
-        if (!playerJump.GroundDetect())
+        if (!PlayerMov.instance.GroundDetect())
         {
             animator.SetBool("isJumping", true);
         }

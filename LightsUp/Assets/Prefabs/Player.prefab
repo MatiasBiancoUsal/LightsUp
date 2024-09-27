@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 0.35, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6391045702434044588
@@ -191,7 +191,7 @@ SpriteRenderer:
   m_Size: {x: 0.63, y: 1.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2860065328316765163
@@ -659,7 +659,7 @@ SpriteRenderer:
   m_Size: {x: 1.45, y: 1.59}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6045040972314573025
@@ -766,7 +766,7 @@ SpriteRenderer:
   m_Size: {x: 0.78, y: 1.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1562227670632600368
@@ -874,7 +874,7 @@ SpriteRenderer:
   m_Size: {x: 0.38, y: 0.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6931375753834505655
@@ -982,7 +982,7 @@ SpriteRenderer:
   m_Size: {x: 0.36, y: 0.68}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3075259967222148577
@@ -1083,8 +1083,6 @@ GameObject:
   - component: {fileID: 4010592456891547595}
   - component: {fileID: 5871619339107689030}
   - component: {fileID: 8605088541507226798}
-  - component: {fileID: 7019917150248160973}
-  - component: {fileID: 5882522545517771376}
   - component: {fileID: 3102744847241759477}
   - component: {fileID: 2790111533461326517}
   - component: {fileID: 7042607196897140814}
@@ -1235,19 +1233,23 @@ MonoBehaviour:
   speedWalk: 3
   speedRun: 6
   Horizontal: 0
+  headCheck: {fileID: 467692131443208549}
+  headCheckLength: 0.83
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  stopInput: 0
   isRunning: 0
+  jumpForce: 7
+  groundCheck: {fileID: 0}
+  groundCheckLength: 0
   isRolling: 0
   rollingTime: 0.5
   rollingCooldown: 2
   rollingPower: 4
   speedCrouch: 1.8
   isCrouched: 0
-  headCheck: {fileID: 467692131443208549}
-  headCheckLength: 0.83
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  isDead: 0
+  speedClimb: 0
 --- !u!114 &8605088541507226798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,38 +1268,6 @@ MonoBehaviour:
   standSize: {x: 0, y: 0}
   crouchOffset: {x: 0, y: -0.2103833}
   crouchSize: {x: 1, y: 0.5792335}
---- !u!114 &7019917150248160973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6770727307064213517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d68b86edecc33d4d9148b467927034d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 5.5
-  groundCheck: {fileID: 1623850865649629615}
-  groundCheckLength: 0.6
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &5882522545517771376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6770727307064213517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90b03bde4fe63b94bbb8bbe2043b7869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedClimb: 2.59
 --- !u!114 &3102744847241759477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,10 +1280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a57aeeea94ec1448be0927da1127ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayDistance: 1
-  Pushable:
-    serializedVersion: 2
-    m_Bits: 256
+  box: {fileID: 0}
 --- !u!114 &2790111533461326517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1326,11 +1293,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f4c1338ad9d7046a782bd2e794ec90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashlight: []
-  currentFlashlight: 0
-  isFlashlight: 0
+  FlashlightNormal: {fileID: 0}
+  FlashlightUV: {fileID: 0}
+  FlashlightIR: {fileID: 0}
   flashlightEnergy: 100
   totalEnergy: 0
+  isFlashlightOn: 0
+  enemyTags:
+  - Enemy
 --- !u!114 &7042607196897140814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1347,6 +1317,7 @@ MonoBehaviour:
   flashlightAngle: 23.1
   numRays: 10
   flashlightDamage: 0
+  flashlightObject: {fileID: 0}
 --- !u!114 &-3734291187730852838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,12 +1330,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c589fc00e99f14e8c720e7e0b0840b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 3
+  health: 3
+  maxHealth: 3
   batteryBars:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  isDead: 0
+  state: 0
 --- !u!114 &1714495643664715901
 MonoBehaviour:
   m_ObjectHideFlags: 0

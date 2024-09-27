@@ -12,10 +12,23 @@ public class PlayerMov : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator animator;
     public float Horizontal;
+    private float Vertical;
+
+    public Transform headCheck;
+    public float headCheckLength;
+    public LayerMask groundMask;
+
+    private bool windZone;
+
+    public bool stopInput;
 
     public bool isRunning;
-   // public bool isWalking;
+    // public bool isWalking;
 
+    [Header("Jump")]
+    public float jumpForce = 7f;
+    public Transform groundCheck;
+    public float groundCheckLength;
 
     [Header("Roll")]
     public bool isRolling = false;
@@ -28,13 +41,10 @@ public class PlayerMov : MonoBehaviour
     public float speedCrouch;
     public bool isCrouched = false;
 
-    public Transform headCheck;
-    public float headCheckLength;
-    public LayerMask groundMask;
-
-    private bool windZone;
-
-    public bool stopInput;
+    [Header("Climb")]
+    public float speedClimb;
+    private bool isLadder;
+    private bool isClimbing;
 
     private void Awake()
     {
@@ -54,15 +64,17 @@ public class PlayerMov : MonoBehaviour
         if (!PauseMenu.instance.isPaused && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive && !stopInput)
         {
             Horizontal = Input.GetAxis("Horizontal");
+            Vertical = Input.GetAxis("Vertical");
 
             if (!isRolling)
             {
                 if (Horizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                 else if (Horizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
+                Jump();
                 Crouch();
+                Climb();
             }
-
             Roll();
         }
     }
@@ -75,9 +87,9 @@ public class PlayerMov : MonoBehaviour
             {
                 isRunning = true;
                 speed = speedRun;
-              //  isWalking = false;
+                //  isWalking = false;
                 // animator.SetBool("isRunning", true);
-              //  animator.SetBool("isRunning", !isWalking);
+                //  animator.SetBool("isRunning", !isWalking);
             }
             else if (isCrouched)
             {
@@ -87,10 +99,39 @@ public class PlayerMov : MonoBehaviour
             {
                 isRunning = false;
                 speed = speedWalk;
-               // animator.SetBool("isWalking", !isRunning);
+                // animator.SetBool("isWalking", !isRunning);
             }
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
+        }
+    }
+
+    public void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (GroundDetect())
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+            }
+        }
+    }
+
+    public void Climb()
+    {
+        if (isLadder && Mathf.Abs(Vertical) > 0)
+        {
+            isClimbing = true;
+        }
+
+        if (isClimbing)
+        {
+            rb2d.gravityScale = 0f;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, Vertical * speedClimb);
+        }
+        else
+        {
+            rb2d.gravityScale = 1f;
         }
     }
 
@@ -128,7 +169,22 @@ public class PlayerMov : MonoBehaviour
         Vector2 to = new Vector2(headCheck.position.x, headCheck.position.y + headCheckLength);
 
         Gizmos.DrawLine(from, to);
+
+        if (groundCheck == null) return;
+
+        Vector2 fromGround = groundCheck.position;
+        Vector2 toGround = new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckLength);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(fromGround, toGround);
     }
+
+    public bool GroundDetect()
+    {
+        bool hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckLength, groundMask);
+        return hit;
+    }
+
 
     public void Roll()
     {
@@ -160,12 +216,23 @@ public class PlayerMov : MonoBehaviour
         {
             windZone = true;
         }
+
+        if (collision.CompareTag("Ladder"))
+        {
+            isLadder = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Wind"))
         {
             windZone = false;
+        }
+
+        if (collision.CompareTag("Ladder"))
+        {
+            isLadder = false;
+            isClimbing = false;
         }
     }
 }
