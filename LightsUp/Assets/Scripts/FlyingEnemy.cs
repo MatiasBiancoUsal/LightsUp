@@ -144,12 +144,3 @@ public class FlyingEnemy : MonoBehaviour
         isWaitingAfterAttack = false;
     }
 }
-
-
-
-
-
-
-
-
-
