@@ -28,7 +28,7 @@ public class BrokenKey : MonoBehaviour
         {
             hasPlayedVideo = true;
             Invoke("PlayVideo", 0f);
-            Invoke("OpenDoor", 9f);
+            Invoke("OpenDoor", 6f);
 
             if (textMesh != null)
             {
