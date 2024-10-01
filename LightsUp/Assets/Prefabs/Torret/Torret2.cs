@@ -24,5 +24,5 @@ public class Torret2 : MonoBehaviour
 
        
     }
-    
+
 }
