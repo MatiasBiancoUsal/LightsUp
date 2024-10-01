@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerPushPull : MonoBehaviour
 {
@@ -33,8 +32,6 @@ public class PlayerPushPull : MonoBehaviour
     {
         box = currentBoxCollider.gameObject;
         isHoldingBox = true;
-        box.GetComponent<BoxCollider2D>().enabled = false;
-        box.GetComponent<Rigidbody2D>().isKinematic = true;
     }
 
     void ReleaseBox()
@@ -42,8 +39,6 @@ public class PlayerPushPull : MonoBehaviour
         if (box != null)
         {
             isHoldingBox = false;
-            box.GetComponent<BoxCollider2D>().enabled = true;
-            box.GetComponent<Rigidbody2D>().isKinematic = false;
             box = null;
             currentBoxCollider = null;
         }
@@ -53,8 +48,12 @@ public class PlayerPushPull : MonoBehaviour
     {
         if (box != null)
         {
+            Rigidbody2D boxRigidbody = box.GetComponent<Rigidbody2D>();
             float offsetX = (box.transform.position.x < transform.position.x) ? -1.1f : 1.1f;
-            box.transform.position = new Vector2(transform.position.x + offsetX, box.transform.position.y);
+            Vector2 targetPosition = new Vector2(transform.position.x + offsetX, box.transform.position.y);
+
+            
+            boxRigidbody.MovePosition(targetPosition);
         }
     }
 
@@ -70,9 +69,12 @@ public class PlayerPushPull : MonoBehaviour
     {
         if (collision.collider.CompareTag("Box"))
         {
-
             currentBoxCollider = null;
         }
     }
 }
+
+
+
+
 
