@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             SceneManager.LoadScene(nextSceneName);
         }
@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             SceneManager.LoadScene(previousSceneName);
-        }*/
+        }
     }
 
     public void RespawnPlayer()
