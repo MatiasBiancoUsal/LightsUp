@@ -2,56 +2,40 @@ using UnityEngine;
 
 public class GulaMov : MonoBehaviour
 {
-    public float speed = 2f; // Velocidad normal
-    public float slowSpeed = 0.5f; // Velocidad reducida
-    public float range = 5f; // Rango de movimiento
-    public float totalTime = 6f; // Tiempo total de movimiento
+    public float speed = 2f;
 
-    private Vector3 startPosition;
-    private float timeElapsed = 0f;
-    private bool movingRight = true;
+    public GameObject pointA;
+    public GameObject pointB;
+
+    private Rigidbody2D Rigidbody;
+    private Transform currentPoint;
 
     void Start()
     {
-        startPosition = transform.position;
+        Rigidbody = GetComponent<Rigidbody2D>();
+        currentPoint = pointB.transform;
     }
 
     void Update()
     {
-        timeElapsed += Time.deltaTime;
+        Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
 
-        // Calcular la velocidad según el tiempo transcurrido
-        float currentSpeed = speed;
-        if (timeElapsed > 3f && timeElapsed <= 5f) // Desde 3 segundos hasta 5 segundos
+        if (transform.position.x >= currentPoint.position.x && currentPoint == pointB.transform)
         {
-            currentSpeed = slowSpeed;
+            flip();
+            currentPoint = pointA.transform;
         }
-
-        // Mover al enemigo
-        if (timeElapsed <= totalTime)
+        else if (transform.position.x <= currentPoint.position.x && currentPoint == pointA.transform)
         {
-            Vector3 movementDirection = movingRight ? Vector3.right : Vector3.left;
-            transform.position += movementDirection * currentSpeed * Time.deltaTime;
-
-            // Verificar límites de movimiento
-            if (transform.position.x >= startPosition.x + range)
-            {
-                movingRight = false;
-            }
-            else if (transform.position.x <= startPosition.x - range)
-            {
-                movingRight = true;
-            }
+            flip();
+            currentPoint = pointB.transform;
         }
+    }
 
-        // Detener al enemigo después de 5 segundos
-        if (timeElapsed > 5f)
-        {
-            transform.position = transform.position; // Mantener la posición
-            if (timeElapsed >= totalTime)
-            {
-                timeElapsed = 0f; // Reiniciar el tiempo
-            }
-        }
+    private void flip()
+    {
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
     }
 }
