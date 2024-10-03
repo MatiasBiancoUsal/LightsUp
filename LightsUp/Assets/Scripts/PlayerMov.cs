@@ -200,11 +200,12 @@ public class PlayerMov : MonoBehaviour
         {
             canRoll = false;
             isRolling = true;
-            animator.SetBool("Roll", isRolling);
+        
             rb2d.velocity = new Vector2(rb2d.velocity.x + (rollingPower * transform.localScale.x), rb2d.velocity.y);
             yield return new WaitForSeconds(rollingTime);
             isRolling = false;
-            animator.SetBool("Roll", isRolling);
+
+            
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;
         }
