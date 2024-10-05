@@ -24,6 +24,7 @@ public class PlayerMov : MonoBehaviour
 
     public bool isRunning;
     // public bool isWalking;
+    private BoxCollider2D bc2d;
 
     [Header("Jump")]
     public float jumpForce = 7f;
@@ -56,6 +57,7 @@ public class PlayerMov : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         speed = speedWalk;
         animator = GetComponent<Animator>();
+        bc2d = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -196,16 +198,19 @@ public class PlayerMov : MonoBehaviour
 
     IEnumerator StartRoll()
     {
+        bc2d.enabled = false;
+        rb2d.bodyType = RigidbodyType2D.Kinematic;
         if (Horizontal != 0 && !isCrouched)
         {
             canRoll = false;
             isRolling = true;
         
-            rb2d.velocity = new Vector2(rb2d.velocity.x + (rollingPower * transform.localScale.x), rb2d.velocity.y);
+            rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower * transform.localScale.x, rb2d.velocity.y);
             yield return new WaitForSeconds(rollingTime);
             isRolling = false;
+            bc2d.enabled = true;
+            rb2d.bodyType = RigidbodyType2D.Dynamic;
 
-            
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;
         }
@@ -223,6 +228,7 @@ public class PlayerMov : MonoBehaviour
             isLadder = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Wind"))

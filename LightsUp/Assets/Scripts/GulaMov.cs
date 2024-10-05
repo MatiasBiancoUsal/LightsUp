@@ -10,26 +10,58 @@ public class GulaMov : MonoBehaviour
     private Rigidbody2D Rigidbody;
     private Transform currentPoint;
 
+    public static GulaMov instance;
+
+    public float rollingTime = 6f;
+    public float iddleTime = 3f;
+    private float timeElapsed = 0f;
+
+    public Animator animator;
+    public enum GulaState
+    {
+        Roll,
+        Iddle,
+    }    
+
+    void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
+        animator = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
         currentPoint = pointB.transform;
     }
 
     void Update()
     {
-        Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
+        timeElapsed += Time.deltaTime;
 
-        if (transform.position.x >= currentPoint.position.x && currentPoint == pointB.transform)
+        if (timeElapsed <= rollingTime)
         {
-            flip();
-            currentPoint = pointA.transform;
-        }
-        else if (transform.position.x <= currentPoint.position.x && currentPoint == pointA.transform)
+            animator.SetBool("startedRoll", true);
+            animator.SetBool("stoppedRoll", false);
+            Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
+
+            if (transform.position.x >= currentPoint.position.x && currentPoint == pointB.transform)
+            {
+                flip();
+                currentPoint = pointA.transform;
+            }
+            else if (transform.position.x <= currentPoint.position.x && currentPoint == pointA.transform)
+            {
+                flip();
+                currentPoint = pointB.transform;
+            }
+        } else
         {
-            flip();
-            currentPoint = pointB.transform;
+            animator.SetBool("startedRoll", false);
+            animator.SetBool("stoppedRoll", true);
+            Rigidbody.velocity = new Vector2(0, 0);
+            if (timeElapsed > iddleTime + rollingTime) timeElapsed = 0;
         }
+
     }
 
     private void flip()
