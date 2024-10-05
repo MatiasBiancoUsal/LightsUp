@@ -33,7 +33,7 @@ public class PlayerMov : MonoBehaviour
 
     [Header("Roll")]
     public bool isRolling = false;
-    private bool canRoll = true;
+    public bool canRoll = true;
     public float rollingTime;
     public float rollingCooldown;
     public float rollingPower;
@@ -79,10 +79,7 @@ public class PlayerMov : MonoBehaviour
             }
             Roll();
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (!isRolling && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive)
         {
             if (Input.GetKey(KeyCode.LeftShift) && !isCrouched && !windZone)
@@ -106,6 +103,11 @@ public class PlayerMov : MonoBehaviour
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
         }
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     public void Jump()
@@ -204,8 +206,8 @@ public class PlayerMov : MonoBehaviour
         {
             canRoll = false;
             isRolling = true;
-        
             rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower * transform.localScale.x, rb2d.velocity.y);
+        
             yield return new WaitForSeconds(rollingTime);
             isRolling = false;
             bc2d.enabled = true;
@@ -213,6 +215,7 @@ public class PlayerMov : MonoBehaviour
 
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;
+
         }
     }
 
