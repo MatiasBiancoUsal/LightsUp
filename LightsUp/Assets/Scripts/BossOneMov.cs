@@ -8,9 +8,8 @@ public class BossOneMov : MonoBehaviour
     public float speed = 1f; // Velocidad del movimiento
 
     private float timeElapsed = 0f; // Tiempo transcurrido para el movimiento
-    public bool infinito;
-    public bool volviendo;
-
+    public bool infinito = true; // Inicialmente en true
+    public bool volviendo = false;
 
     [Header("Seguir al jugador")]
     public bool playerInRange = false; // Indica si el jugador está en rango
@@ -18,40 +17,34 @@ public class BossOneMov : MonoBehaviour
     public Transform player; // Referencia al jugador
 
     public LayerMask layerJugador;
-    Vector3 spawnpoint;
-
+    private Vector3 spawnpoint; // Declarar spawnpoint
 
     private void Start()
     {
-        
-        infinito = true;
+        player = GameObject.FindGameObjectWithTag("Player").transform; // Asigna al jugador al inicio
+        spawnpoint = transform.position; // Inicializa spawnpoint a la posición inicial del jefe
     }
+
     void Update()
     {
-        if(spawnpoint == Vector3.zero)
-        {
-            spawnpoint = transform.position;
-        }
-
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, detectionRange, Vector2.zero, 0, layerJugador);
-
-        playerInRange = hit.collider != null;
-        if (!playerInRange  && !infinito)
-        {
-            Volver();
-
-        }
-
-
         // Verificar si el jugador está en rango
+        playerInRange = Physics2D.CircleCast(transform.position, detectionRange, Vector2.zero, 0, layerJugador).collider != null;
+
         if (playerInRange)
         {
-            infinito = false;
+            infinito = false; // Deja de moverse en "8" para perseguir al jugador
             PursuePlayer(); // Persigue al jugador si está en rango
         }
-        if(infinito)
+        else
         {
-            MoveInFigureEight(); // Movimiento en forma de "8" si el jugador no está en rango
+            if (!volviendo)
+            {
+                MoveInFigureEight(); // Movimiento en forma de "8" si el jugador no está en rango
+            }
+            else
+            {
+                Volver(); // Lógica para volver a un punto inicial
+            }
         }
     }
 
@@ -64,51 +57,45 @@ public class BossOneMov : MonoBehaviour
         float x = horizontalDistance * Mathf.Sin(timeElapsed); // Movimiento horizontal
         float y = verticalDistance * Mathf.Sin(2 * timeElapsed); // Movimiento vertical (doble frecuencia)
 
-        // Actualizar la posición del enemigo
-        transform.position = new Vector3(x, y, transform.position.z);
+        // Actualizar la posición del enemigo, manteniendo la altura constante
+        transform.position = new Vector3(x, y + spawnpoint.y, transform.position.z);
     }
-
 
     void Volver()
     {
-        timeElapsed = 0;
+        // Implementar lógica para volver a la posición original
+        Vector3 directionToSpawn = spawnpoint - transform.position; // Supongamos que spawnpoint es la posición inicial
+        transform.position += directionToSpawn.normalized * speed * Time.deltaTime;
 
-        Vector3 directionToPlayer = (Vector3.zero - transform.position).normalized;
-
-
-        transform.position = Vector3.MoveTowards(transform.position,Vector3.zero,speed*Time.deltaTime);
-
-        if(transform.position== Vector3.zero)
+        // Si está cerca de la posición inicial, cambiar el estado
+        if (Vector3.Distance(transform.position, spawnpoint) < 0.1f)
         {
-            infinito = true;
+            volviendo = false; // Regresar a movimiento en "8"
             timeElapsed = 0;
-
+            infinito = true; // Regresar al movimiento en "8"
         }
-
     }
-
-
 
     void PursuePlayer()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-
-
         // Obtener la dirección hacia el jugador
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
-
         // Actualizar la posición del jefe (con un ligero desplazamiento vertical para simular flotación)
-        transform.position += directionToPlayer * speed * Time.deltaTime;
-       // transform.position = new Vector3(transform.position.x, transform.position.y + floatingOffset, transform.position.z);
+        // Mantener la altura constante
+        transform.position += new Vector3(directionToPlayer.x, 0, 0) * speed * Time.deltaTime; // Solo mover en horizontal
+        transform.position = new Vector3(transform.position.x, spawnpoint.y, transform.position.z); // Mantener la altura
     }
 
     // Opcional: Dibujar el rango de detección en el editor
     private void OnDrawGizmos()
     {
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange); // Dibujar el rango de detección
     }
 }
+
+
+
+
 
