@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth instance;
+    public Animator animator;
 
     public int health = 3;
     public int maxHealth = 3;
@@ -34,6 +35,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         if(invincibleCounter > 0)
@@ -51,6 +57,8 @@ public class PlayerHealth : MonoBehaviour
         if (invincibleCounter <= 0)
         {
             health -= damage;
+
+            animator.SetTrigger("damage");
 
             UpdateBatteryDisplay();
 
