@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth instance;
+    public Animator animator;
 
     public int health = 3;
     public int maxHealth = 3;
@@ -34,6 +35,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         if(invincibleCounter > 0)
@@ -42,6 +48,7 @@ public class PlayerHealth : MonoBehaviour
 
             if (invincibleCounter <= 0)
             {
+                Physics2D.IgnoreLayerCollision(10, 2, false);
             }
         }
     }
@@ -52,7 +59,11 @@ public class PlayerHealth : MonoBehaviour
         {
             health -= damage;
 
+            animator.SetTrigger("damage");
+
             UpdateBatteryDisplay();
+
+            Physics2D.IgnoreLayerCollision(10, 2, true);
 
             if (health <= 0)
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -11,7 +12,18 @@ public class LevelManager : MonoBehaviour
     public string nextSceneName;
     public string previousSceneName;
 
+    public Scene actualScene;
+
     public float waitToRespawn;
+
+    public enum LevelState
+    {
+        BossFight,
+        NormalLevel,
+        Cinematic,
+    }
+
+    public LevelState levelState;
 
     private void Awake()
     {
@@ -21,7 +33,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        actualScene = SceneManager.GetActiveScene();
     }
 
     // Update is called once per frame
@@ -38,6 +50,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(actualScene.name);
+    }
+
     public void RespawnPlayer()
     {
         StartCoroutine(RespawnCo());
@@ -51,11 +68,17 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitForSeconds((1f / UIController.instance.fadeSpeed) + .2f);
 
+        if (levelState == LevelState.BossFight)
+        {
+            ReloadScene();
+        }
+
         UIController.instance.FadeFromBlack();
 
         PlayerMov.instance.transform.position = CheckpointController.instance.spawnPoint;
 
         PlayerHealth.instance.resetPlayerHealth();
+
     }
 
     public void EndLevel()

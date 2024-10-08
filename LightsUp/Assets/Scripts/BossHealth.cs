@@ -1,30 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
-    public float maxHealth = 1000;
+    public float health;
+    public float maxHealth;
+    public Slider healthSlider;
+
+    void Start()
+    {
+        health = maxHealth;
+    }
 
     void Update()
     {
-
+        if (healthSlider.value != health)
+        {
+            healthSlider.value = health;
+        }
     }
+
     public void ReceiveDamage(float damage)
     {
         if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
         {
-            maxHealth -= damage * 2;
+            health -= damage * 2;
 
-            if (maxHealth < 0)
+            if (health < 0)
             {
                 Death();
             }
         } else
         {
-            maxHealth -= damage;
+            health -= damage;
 
-            if (maxHealth < 0)
+            if (health < 0)
             {
                 Death();
             }
@@ -35,4 +47,5 @@ public class BossHealth : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
 }
