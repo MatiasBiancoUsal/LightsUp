@@ -48,6 +48,7 @@ public class PlayerHealth : MonoBehaviour
 
             if (invincibleCounter <= 0)
             {
+                Physics2D.IgnoreLayerCollision(10, 2, false);
             }
         }
     }
@@ -61,6 +62,8 @@ public class PlayerHealth : MonoBehaviour
             animator.SetTrigger("damage");
 
             UpdateBatteryDisplay();
+
+            Physics2D.IgnoreLayerCollision(10, 2, true);
 
             if (health <= 0)
             {
