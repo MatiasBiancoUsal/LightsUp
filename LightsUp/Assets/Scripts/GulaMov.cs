@@ -21,7 +21,9 @@ public class GulaMov : MonoBehaviour
     {
         Roll,
         Iddle,
-    }    
+    }
+
+    public GulaState gulaState;
 
     void Awake()
     {
@@ -40,6 +42,7 @@ public class GulaMov : MonoBehaviour
 
         if (timeElapsed <= rollingTime)
         {
+            gulaState = GulaState.Roll;
             animator.SetBool("startedRoll", true);
             animator.SetBool("stoppedRoll", false);
             Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
@@ -56,6 +59,7 @@ public class GulaMov : MonoBehaviour
             }
         } else
         {
+            gulaState = GulaState.Iddle;
             animator.SetBool("startedRoll", false);
             animator.SetBool("stoppedRoll", true);
             Rigidbody.velocity = new Vector2(0, 0);

@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour
     public int health = 3;
     public int maxHealth = 3;
     public Image[] batteryBars;
+    public float invincibleCounter;
+    public float invincibleLength;
 
     public enum PlayerStates {
         Alive,
@@ -34,19 +36,36 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
+        if(invincibleCounter > 0)
+        {
+            invincibleCounter -= Time.deltaTime;
+
+            if (invincibleCounter <= 0)
+            {
+            }
+        }
     }
 
     public void ReceiveDamage(int damage)
     {
-        health -= damage;
-
-        UpdateBatteryDisplay();
-
-        if (health <= 0)
+        if (invincibleCounter <= 0)
         {
-            state = PlayerStates.Dead;
-            health = 0;
-            LevelManager.instance.RespawnPlayer();
+            health -= damage;
+
+            UpdateBatteryDisplay();
+
+            if (health <= 0)
+            {
+                state = PlayerStates.Dead;
+                health = 0;
+                LevelManager.instance.RespawnPlayer();
+            }
+
+            invincibleCounter = invincibleLength;
+        }
+        else
+        {
+
         }
     }
 

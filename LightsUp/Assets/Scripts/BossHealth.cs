@@ -12,11 +12,22 @@ public class BossHealth : MonoBehaviour
     }
     public void ReceiveDamage(float damage)
     {
-        maxHealth -= damage;
-
-        if (maxHealth < 0)
+        if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
         {
-            Death();
+            maxHealth -= damage * 2;
+
+            if (maxHealth < 0)
+            {
+                Death();
+            }
+        } else
+        {
+            maxHealth -= damage;
+
+            if (maxHealth < 0)
+            {
+                Death();
+            }
         }
     }
 

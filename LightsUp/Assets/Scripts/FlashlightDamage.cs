@@ -47,9 +47,19 @@ public class FlashlightDamage : MonoBehaviour
                 {
                     if (hitEnemies.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightNormal)
                     {
-                        hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
+                        if (hit.collider.gameObject.GetComponent<EnemyHealth>() != null)
+                        {
+                            hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
+                        }
+
+                        if (hit.collider.gameObject.GetComponent<BossHealth>() != null)
+                        {
+                            hit.collider.gameObject.GetComponent<BossHealth>().ReceiveDamage(flashlightDamage);
+                        }
                     }
                 }
+
+                
 
                 if (hit.collider.CompareTag("UV"))
                 {
