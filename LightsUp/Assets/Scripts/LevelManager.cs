@@ -33,7 +33,6 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelState = LevelState.NormalLevel;
         actualScene = SceneManager.GetActiveScene();
     }
 
@@ -69,16 +68,16 @@ public class LevelManager : MonoBehaviour
 
         yield return new WaitForSeconds((1f / UIController.instance.fadeSpeed) + .2f);
 
+        if (levelState == LevelState.BossFight)
+        {
+            ReloadScene();
+        }
+
         UIController.instance.FadeFromBlack();
 
         PlayerMov.instance.transform.position = CheckpointController.instance.spawnPoint;
 
         PlayerHealth.instance.resetPlayerHealth();
-
-        if(levelState == LevelState.BossFight)
-        {
-            ReloadScene();
-        }
 
     }
 
