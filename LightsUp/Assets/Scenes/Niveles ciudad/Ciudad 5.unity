@@ -1811,7 +1811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6611313470337642584, guid: 3d8bef43b43f871409858eab336b7e9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.773075
+      value: -13.507778
       objectReference: {fileID: 0}
     - target: {fileID: 6611313470337642584, guid: 3d8bef43b43f871409858eab336b7e9a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3102,7 +3102,10 @@ MonoBehaviour:
   levelToLoad: Prueba enemigo volador
   nextSceneName: Prueba enemigo volador
   previousSceneName: Ciudad 4
+  actualScene:
+    m_Handle: 0
   waitToRespawn: 1.5
+  levelState: 0
 --- !u!4 &765088571
 Transform:
   m_ObjectHideFlags: 0
@@ -4326,7 +4329,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1081762429}
-  - component: {fileID: 1081762430}
   m_Layer: 0
   m_Name: Life Caracter
   m_TagString: Untagged
@@ -4352,25 +4354,6 @@ Transform:
   - {fileID: 890233099}
   m_Father: {fileID: 1775508846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1081762430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081762428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c589fc00e99f14e8c720e7e0b0840b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
-  maxHealth: 3
-  batteryBars:
-  - {fileID: 1606556412}
-  - {fileID: 1191706340}
-  - {fileID: 890233100}
-  state: 0
 --- !u!1 &1087752933
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,7 +5246,7 @@ Transform:
   m_GameObject: {fileID: 1336662028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.773075, y: 1.2724221, z: -10}
+  m_LocalPosition: {x: -13.507778, y: 1.2724221, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7757,13 +7740,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1038418678}
-  - {fileID: 708505944}
   - {fileID: 1925174163}
   - {fileID: 179821769}
   - {fileID: 1081762429}
   - {fileID: 193103019}
-  - {fileID: 1472429939}
   - {fileID: 1168467934}
+  - {fileID: 708505944}
+  - {fileID: 1472429939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
