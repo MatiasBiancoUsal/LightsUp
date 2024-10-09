@@ -17,6 +17,10 @@ public class BossOneMov : MonoBehaviour
     public Transform player; // Referencia al jugador
 
     public LayerMask layerJugador;
+    public int damageToPlayer = 1; // Cantidad de daño que se le hace al jugador
+
+    public float waitTime = 2f;
+
     private Vector3 spawnpoint; // Declarar spawnpoint
 
     private void Start()
@@ -33,6 +37,7 @@ public class BossOneMov : MonoBehaviour
         if (playerInRange)
         {
             infinito = false; // Deja de moverse en "8" para perseguir al jugador
+            volviendo = true;
             PursuePlayer(); // Persigue al jugador si está en rango
         }
         else
@@ -63,37 +68,54 @@ public class BossOneMov : MonoBehaviour
 
     void Volver()
     {
-        // Implementar lógica para volver a la posición original
-        Vector3 directionToSpawn = spawnpoint - transform.position; // Supongamos que spawnpoint es la posición inicial
-        transform.position += directionToSpawn.normalized * speed * Time.deltaTime;
+        timeElapsed = 0;
 
-        // Si está cerca de la posición inicial, cambiar el estado
-        if (Vector3.Distance(transform.position, spawnpoint) < 0.1f)
+        Vector3 directionToPlayer = (Vector3.zero - transform.position).normalized;
+
+        transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, speed * Time.deltaTime);
+
+        if (transform.position == Vector3.zero)
         {
-            volviendo = false; // Regresar a movimiento en "8"
-            timeElapsed = 0;
-            infinito = true; // Regresar al movimiento en "8"
+            StartCoroutine(ActivateReturnVariables()); // CORRECCIÓN: Se usa 'StartCoroutine'
         }
+    }
+
+    private IEnumerator ActivateReturnVariables()
+    {
+        yield return new WaitForSeconds(waitTime);
+        infinito = true;
+        volviendo = false;
+        timeElapsed = 0;
     }
 
     void PursuePlayer()
     {
-        // Obtener la dirección hacia el jugador
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        // Actualizar la posición del jefe (con un ligero desplazamiento vertical para simular flotación)
-        // Mantener la altura constante
-        transform.position += new Vector3(directionToPlayer.x, 0, 0) * speed * Time.deltaTime; // Solo mover en horizontal
-        transform.position = new Vector3(transform.position.x, spawnpoint.y, transform.position.z); // Mantener la altura
+        transform.position += new Vector3(directionToPlayer.x, directionToPlayer.y, 0) * speed * Time.deltaTime;
     }
 
-    // Opcional: Dibujar el rango de detección en el editor
+    // Detectar colisiones con el jugador
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            // Acceder al script del jugador para restarle vida
+            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.ReceiveDamage(damageToPlayer); // Llamar al método que reduce la vida del jugador
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange); // Dibujar el rango de detección
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }
+
+
 
 
 
