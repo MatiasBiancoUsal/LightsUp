@@ -4,32 +4,38 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ladder
-  - Ground
-  - Platform
-  - Enemy
-  - Wind
-  - Box
-  - Checkpoint
-  - UV
-  - mosca
-  - Key
-  - DoorMultipleKeys
   - Shield
+  - Key
+  - Box
+  - DoorMultipleKeys
+  - mosca
+  - Enemy
+  - Ground
+  - Wind
+  - UV
+  - Ladder
+  - Checkpoint
   - Protection
-  - BossOne
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
+<<<<<<< Updated upstream
   - Ground
   - Platform
   - Pushable
   - BossOne
   - Enemy
+=======
+  - Player
+  - 
+  - 
+  - 
+  - 
+>>>>>>> Stashed changes
   - 
   - 
   - 
@@ -52,12 +58,10 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Back
-    uniqueID: 3625905053
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
+<<<<<<< Updated upstream
   - name: Ground
     uniqueID: 3525200407
     locked: 0
@@ -100,3 +104,5 @@ TagManager:
   - name: BossOne
     uniqueID: 1794153519
     locked: 0
+=======
+>>>>>>> Stashed changes
