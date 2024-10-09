@@ -57,12 +57,14 @@ public class SpecialAttack : MonoBehaviour
             {
                 if (hitEnemies.Add(collider))
                 {
-                    collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(damage);
-                    Rigidbody2D rb2d = collider.GetComponent<Rigidbody2D>();
-                    if (rb2d != null)
+                    if (collider.gameObject.GetComponent<EnemyHealth>() != null)
                     {
-                        Vector2 direction = (collider.transform.position - transform.position).normalized;
-                        rb2d.AddForce(direction * pushForce, ForceMode2D.Impulse);
+                        collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(damage);
+                    }
+
+                    if (collider.gameObject.GetComponent<BossHealth>() != null)
+                    {
+                        collider.gameObject.GetComponent<BossHealth>().ReceiveDamage(damage);
                     }
                 }
             }

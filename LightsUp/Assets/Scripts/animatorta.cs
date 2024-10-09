@@ -79,7 +79,7 @@ public class animatorta : MonoBehaviour
             animator.SetFloat("X blend", 0);
         }
 
-     if (Input.GetKey(KeyCode.X) && PlayerMov.instance.canRoll)
+     if (Input.GetKey(KeyCode.X) && PlayerMov.instance.canRoll && PlayerMov.instance.Horizontal != 0)
         {
             animator.SetBool("isRolling", true);
         }

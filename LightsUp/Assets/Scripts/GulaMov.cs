@@ -3,6 +3,13 @@ using UnityEngine;
 public class GulaMov : MonoBehaviour
 {
     public float speed = 2f;
+    public float enragedSpeed = 4f;
+
+    public GameObject enragedLight;
+    public GameObject normalLight;
+
+    public bool enraged;
+    public bool enragedAnimation;
 
     public GameObject pointA;
     public GameObject pointB;
@@ -14,7 +21,7 @@ public class GulaMov : MonoBehaviour
 
     public float rollingTime = 6f;
     public float iddleTime = 3f;
-    private float timeElapsed = 0f;
+    public float timeElapsed = 0f;
 
     public Animator animator;
     public enum GulaState
@@ -34,11 +41,25 @@ public class GulaMov : MonoBehaviour
         animator = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
         currentPoint = pointB.transform;
+
     }
 
     void Update()
     {
         timeElapsed += Time.deltaTime;
+
+        if (enraged) 
+        {
+            speed = enragedSpeed;
+
+            if (!enragedAnimation)
+            {
+                enragedAnimation = true;
+                if (gulaState != GulaState.Iddle) timeElapsed = 8f;
+                enragedLight.SetActive(true);
+                normalLight.SetActive(false);
+            }
+        } 
 
         if (timeElapsed <= rollingTime)
         {
