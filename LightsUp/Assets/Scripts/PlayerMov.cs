@@ -200,21 +200,19 @@ public class PlayerMov : MonoBehaviour
 
     IEnumerator StartRoll()
     {
-        bc2d.enabled = false;
-        rb2d.bodyType = RigidbodyType2D.Kinematic;
         if (Horizontal != 0 && !isCrouched)
         {
+            Physics2D.IgnoreLayerCollision(15, 2, true);
             canRoll = false;
             isRolling = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x + rollingPower * transform.localScale.x, rb2d.velocity.y);
         
             yield return new WaitForSeconds(rollingTime);
             isRolling = false;
-            bc2d.enabled = true;
-            rb2d.bodyType = RigidbodyType2D.Dynamic;
 
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;
+            Physics2D.IgnoreLayerCollision(15, 2, false);
 
         }
     }
