@@ -7,86 +7,84 @@ public class animatorta : MonoBehaviour
 {
     private Animator animator;
     private PlayerMov playerMovement;
-    animatorta instancia;
-    public float Horizontal;
+    private float Horizontal;
+    public static animatorta instance;
+    private PlayerPushPull playerPushPull;
 
-    public void Awake()
-    {
-        instancia = this;
-
-    }
     void Start()
     {
         animator = GetComponent<Animator>();
         playerMovement = PlayerMov.instance;
-
+        playerPushPull = GetComponent<PlayerPushPull>();
     }
 
     void Update()
     {
-
-        animator.SetBool("isRunning", PlayerMov.instance.isRunning);
+        // Animación Correr
+        animator.SetBool("isRunning", playerMovement.isRunning);
         Horizontal = Input.GetAxis("Horizontal");
 
-        //Animacion Idle
-
-        if (PlayerMov.instance.Horizontal == 0 && PlayerMov.instance.GroundDetect())
+        // Animación Idle
+        if (playerMovement.Horizontal == 0 && playerMovement.GroundDetect())
         {
             animator.SetFloat("Y blend", 0);
             animator.SetFloat("X blend", 0);
         }
-   //Animacion caminar
 
-        if (PlayerMov.instance.Horizontal != 0 && !PlayerMov.instance.isRunning)
+        // Animación caminar
+        else if (playerMovement.Horizontal != 0 && !playerMovement.isRunning)
         {
             animator.SetFloat("Y blend", 1);
             animator.SetFloat("X blend", -1);
         }
 
-        else if (PlayerMov.instance.Horizontal == 0)
-        {
-            animator.SetFloat("Y blend", 0);
-            animator.SetFloat("X blend", 0);
-        }
-
-        //Animacion correr
-
+        // Animación correr
         if (Input.GetKey(KeyCode.LeftShift))
         {
             animator.SetFloat("Y blend", 1);
             animator.SetFloat("X blend", 0);
         }
 
-
-    //Animacion Jump 
-
-        if (Input.GetKey(KeyCode.Space) && !PlayerMov.instance.GroundDetect())
+        // Animación Jump 
+        if (Input.GetKey(KeyCode.Space) && !playerMovement.GroundDetect())
         {
             animator.SetFloat("Y blend", 1);
             animator.SetFloat("X blend", 1);
         }
 
-     // Animamcion CrawlWalk
-     if (Input.GetKeyDown(KeyCode.C) && PlayerMov.instance.Horizontal != 0)
+        // Animación Crouch
+        if (playerMovement.Horizontal == 0 && playerMovement.isCrouched)
+        {
+            animator.SetFloat("Y blend", -0.3f);
+            animator.SetFloat("X blend", -1);
+        }
+
+        // Animación CrawlWalk
+        if (playerMovement.Horizontal != 0 && playerMovement.isCrouched)
         {
             animator.SetFloat("Y blend", 0.3f);
             animator.SetFloat("X blend", -1);
         }
-
-     else if (Input.GetKeyUp(KeyCode.C) && PlayerMov.instance.Horizontal != 0)
+        else if (playerMovement.Horizontal == 0 && !playerMovement.isCrouched)
         {
             animator.SetFloat("Y blend", 0);
             animator.SetFloat("X blend", 0);
         }
 
-     if (Input.GetKey(KeyCode.X) && PlayerMov.instance.canRoll && PlayerMov.instance.Horizontal != 0)
-        {
-            animator.SetBool("isRolling", true);
-        }
-     else 
-        {
-            animator.SetBool("isRolling", false);
-        }
+        // Animación Roll
+        animator.SetBool("isRolling", Input.GetKey(KeyCode.X) && playerMovement.canRoll && playerMovement.Horizontal != 0);
 
+        // Animación PickUp
+        if (playerPushPull.isHoldingBox)
+        {
+            animator.SetFloat("Y blend", -1);
+            animator.SetFloat("X blend", -1);
+        }
+    }
+
+    // Animación Death
+    public void DeathAnimation()
+    {
+        animator.SetTrigger("death");
     }
 }

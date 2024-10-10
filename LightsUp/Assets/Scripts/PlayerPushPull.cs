@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerPushPull : MonoBehaviour
 {
     public GameObject box;
-    private bool isHoldingBox = false;
+    public bool isHoldingBox = false;
     private Collider2D currentBoxCollider;
 
     void Update()

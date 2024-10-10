@@ -69,6 +69,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 state = PlayerStates.Dead;
                 health = 0;
+                //animatorta.instance.DeathAnimation();
                 LevelManager.instance.RespawnPlayer();
             }
 

@@ -24,55 +24,41 @@ public class FlashlightDamage : MonoBehaviour
     void DetectEnemyFlashlight()
     {
         Vector3 origin = flashlightObject.transform.position;
-
         Vector3 direction = Vector2.right * transform.localScale.x;
-
         Vector3 leftVertex = origin + (Quaternion.Euler(0, 0, -flashlightAngle / 2) * direction) * flashLightDistance;
         Vector3 rightVertex = origin + (Quaternion.Euler(0, 0, flashlightAngle / 2) * direction) * flashLightDistance;
 
         HashSet<Collider2D> hitEnemies = new HashSet<Collider2D>();
-        HashSet<Collider2D> hitUV = new HashSet<Collider2D>();
 
         for (int i = 0; i <= numRays; i++)
         {
-            float t = i / (float)numRays; 
-
+            float t = i / (float)numRays;
             Vector3 rayEnd = Vector2.Lerp(leftVertex, rightVertex, t);
-
             RaycastHit2D hit = Physics2D.Raycast(origin, (rayEnd - origin).normalized, flashLightDistance);
 
             if (hit.collider != null)
             {
-                if (hit.collider.CompareTag("Enemy"))
+                if (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Minion")) 
                 {
                     if (hitEnemies.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightNormal)
                     {
-                        if (hit.collider.gameObject.GetComponent<EnemyHealth>() != null)
+                        var enemyHealth = hit.collider.gameObject.GetComponent<EnemyHealth>();
+                       /* var minionHealth = hit.collider.gameObject.GetComponent<MinionHealth>();Aca lo mismo para despues implementar daño/muerte*/ 
+
+                        if (enemyHealth != null)
                         {
-                            hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
+                            enemyHealth.ReceiveDamage(flashlightDamage);
                         }
 
-                        if (hit.collider.gameObject.GetComponent<BossHealth>() != null)
+                       /* if (minionHealth != null)
                         {
-                            hit.collider.gameObject.GetComponent<BossHealth>().ReceiveDamage(flashlightDamage);
-                        }
-                    }
-                }
-
-                
-
-                if (hit.collider.CompareTag("UV"))
-                {
-                    if(hitUV.Add(hit.collider) && FlashlightManager.instance.isFlashlightOn && FlashlightManager.flashlightState == FlashlightManager.FlashlightState.FlashlightUV)
-                    {
-                        hit.collider.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 255);
-                        hit.collider.GetComponent<BoxCollider2D>().isTrigger = false;
+                            minionHealth.ReceiveDamage(flashlightDamage);
+                        }*/
                     }
                 }
             }
-
         }
-    }
+
 
     void OnDrawGizmos()
     {
@@ -118,5 +104,7 @@ public class FlashlightDamage : MonoBehaviour
 
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(origin, flashLightDistance);
+    }
+
     }
 }
