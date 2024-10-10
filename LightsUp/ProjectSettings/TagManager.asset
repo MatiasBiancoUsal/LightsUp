@@ -4,11 +4,26 @@
 TagManager:
   serializedVersion: 2
   tags: []
+  tags:
+  - Ladder
+  - Ground
+  - Platform
+  - Enemy
+  - Wind
+  - Box
+  - Checkpoint
+  - UV
+  - mosca
+  - Key
+  - DoorMultipleKeys
+  - Shield
+  - Protection
+  - BossOne
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
@@ -16,6 +31,11 @@ TagManager:
   - 
   - 
   - 
+  - Ground
+  - Platform
+  - Pushable
+  - BossOne
+  - Enemy
   - 
   - 
   - 
@@ -38,6 +58,51 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Back
+    uniqueID: 3625905053
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3525200407
+    locked: 0
+  - name: Platform
+    uniqueID: 3321689239
+    locked: 0
+  - name: Player
+    uniqueID: 389000421
+    locked: 0
+  - name: Battery
+    uniqueID: 1351491939
+    locked: 0
+  - name: PowerUp
+    uniqueID: 3944097157
+    locked: 0
+  - name: Midle
+    uniqueID: 2112287371
+    locked: 0
+  - name: Enemy
+    uniqueID: 3836614361
+    locked: 0
+  - name: Gula
+    uniqueID: 3641806979
+    locked: 0
+  - name: Background
+    uniqueID: 1948031355
+    locked: 0
+  - name: Background-Tree_1
+    uniqueID: 3050215329
+    locked: 0
+  - name: Background-Tree_2
+    uniqueID: 508666623
+    locked: 0
+  - name: Background-Tree_Box
+    uniqueID: 1174574945
+    locked: 0
+  - name: Front
+    uniqueID: 2830850691
+    locked: 0
+  - name: BossOne
+    uniqueID: 1794153519
     locked: 0
