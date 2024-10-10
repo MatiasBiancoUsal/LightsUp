@@ -22,34 +22,63 @@ public class BossOneMov : MonoBehaviour
     public float waitTime = 2f;
 
     private Vector3 spawnpoint; // Declarar spawnpoint
+    public GameObject Enemigo;
+    public bool MirarIzquierda;
+
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; // Asigna al jugador al inicio
         spawnpoint = transform.position; // Inicializa spawnpoint a la posición inicial del jefe
+        Enemigo = this.gameObject;
     }
 
     void Update()
     {
         // Verificar si el jugador está en rango
         playerInRange = Physics2D.CircleCast(transform.position, detectionRange, Vector2.zero, 0, layerJugador).collider != null;
-
+        Rotar();
         if (playerInRange)
         {
             infinito = false; // Deja de moverse en "8" para perseguir al jugador
             volviendo = true;
             PursuePlayer(); // Persigue al jugador si está en rango
+            if (player.position.x <= Enemigo.transform.position.x)
+            {
+                MirarIzquierda = true;
+            }
+            else
+            {
+                MirarIzquierda = false; 
+            }
+
         }
         else
         {
             if (!volviendo)
             {
                 MoveInFigureEight(); // Movimiento en forma de "8" si el jugador no está en rango
+
             }
             else
             {
                 Volver(); // Lógica para volver a un punto inicial
+
+
             }
+        }
+    }
+
+    void Rotar()
+    {
+        if (MirarIzquierda)
+        {
+            Enemigo.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        }
+        else
+        {
+            Enemigo.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
     }
 
@@ -62,12 +91,38 @@ public class BossOneMov : MonoBehaviour
         float x = horizontalDistance * Mathf.Sin(timeElapsed); // Movimiento horizontal
         float y = verticalDistance * Mathf.Sin(2 * timeElapsed); // Movimiento vertical (doble frecuencia)
 
+
+        if (MirarIzquierda)
+        {
+            if(x<0 && y<0)
+            {
+                MirarIzquierda = false;
+            }
+        }
+        else
+        {
+            if (x > 0 && y < 0)
+            {
+                MirarIzquierda = true;
+            }
+        }
+
         // Actualizar la posición del enemigo, manteniendo la altura constante
         transform.position = new Vector3(x, y + spawnpoint.y, transform.position.z);
     }
 
     void Volver()
     {
+        if (Enemigo.transform.position.x > 0) {
+
+            MirarIzquierda = true; 
+        }
+
+        else {
+
+            MirarIzquierda = false;        
+        }
+
         timeElapsed = 0;
 
         Vector3 directionToPlayer = (Vector3.zero - transform.position).normalized;
