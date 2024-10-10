@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
@@ -32,34 +33,36 @@ public class BossHealth : MonoBehaviour
 
     public void ReceiveDamage(float damage)
     {
-    
-        if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
+        if (!PauseMenu.instance.isPaused)
         {
-            health -= damage * 2;
-
-            if (health < 0)
+            if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
             {
-                Death();
-                gulaHealthBar.SetActive(false);
-                gulaName.enabled = false;
+                health -= damage * 2;
+
+                if (health < 0)
+                {
+                    Death();
+                    gulaHealthBar.SetActive(false);
+                    gulaName.enabled = false;
+                }
             }
-        } else
-        {
-            health -= damage;
-
-            if (health < 0)
+            else
             {
-                Death();
-                gulaHealthBar.SetActive(false);
-                gulaName.enabled = false;
+                health -= damage;
+
+                if (health < 0)
+                {
+                    Death();
+                    gulaHealthBar.SetActive(false);
+                    gulaName.enabled = false;
+                }
+            }
+
+            if (health <= maxHealth / 2)
+            {
+                if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
             }
         }
-
-        if (health <= maxHealth / 2)
-        {
-            if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
-        }
-
     }
 
     void Death()
