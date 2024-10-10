@@ -7,14 +7,20 @@ using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
+    public static BossHealth Instance;
+
     public float health;
     public float maxHealth;
     public Slider healthSlider;
     public Animator animator;
     public GameObject keyGameObject;
-    public TextMeshProUGUI gulaName;
 
     public GameObject gulaHealthBar;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -43,7 +49,6 @@ public class BossHealth : MonoBehaviour
                 {
                     Death();
                     gulaHealthBar.SetActive(false);
-                    gulaName.enabled = false;
                 }
             }
             else
@@ -54,7 +59,6 @@ public class BossHealth : MonoBehaviour
                 {
                     Death();
                     gulaHealthBar.SetActive(false);
-                    gulaName.enabled = false;
                 }
             }
 

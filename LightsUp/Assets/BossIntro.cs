@@ -10,6 +10,8 @@ public class BossIntro : MonoBehaviour
     public CinemachineVirtualCamera CameraFight;
     public CinemachineVirtualCamera CameraEnd;
 
+    public GameObject gulaHealthBar;
+
     void Start()
     {
         CameraManager.SwitchCamera(CameraStart);
@@ -22,17 +24,19 @@ public class BossIntro : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "player")
+        if (collision.gameObject.tag == "Player")
         {
             CameraManager.SwitchCamera(CameraFight);
 
             door.gameObject.GetComponent<Door>().SetIsOpening(false);
+
+            gulaHealthBar.SetActive(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "player")
+        if (collision.gameObject.tag == "Player")
         {
             CameraManager.SwitchCamera(CameraEnd);
         }
