@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class BossHealth : MonoBehaviour
     public Slider healthSlider;
     public Animator animator;
     public GameObject keyGameObject;
+    public TextMeshProUGUI gulaName;
+
+    public GameObject gulaHealthBar;
 
     void Start()
     {
@@ -36,6 +40,8 @@ public class BossHealth : MonoBehaviour
             if (health < 0)
             {
                 Death();
+                gulaHealthBar.SetActive(false);
+                gulaName.enabled = false;
             }
         } else
         {
@@ -44,6 +50,8 @@ public class BossHealth : MonoBehaviour
             if (health < 0)
             {
                 Death();
+                gulaHealthBar.SetActive(false);
+                gulaName.enabled = false;
             }
         }
 
