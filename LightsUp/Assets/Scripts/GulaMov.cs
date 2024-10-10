@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GulaMov : MonoBehaviour
@@ -23,6 +24,8 @@ public class GulaMov : MonoBehaviour
     public float iddleTime = 3f;
     public float timeElapsed = 0f;
 
+    public GameObject batteryPrefab;
+
     public Animator animator;
     public enum GulaState
     {
@@ -41,6 +44,7 @@ public class GulaMov : MonoBehaviour
         animator = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
         currentPoint = pointB.transform;
+        Invoke("spawnBattery", 45f);
 
     }
 
@@ -48,7 +52,7 @@ public class GulaMov : MonoBehaviour
     {
         timeElapsed += Time.deltaTime;
 
-        if (enraged) 
+        if (enraged)
         {
             speed = enragedSpeed;
 
@@ -59,7 +63,7 @@ public class GulaMov : MonoBehaviour
                 enragedLight.SetActive(true);
                 normalLight.SetActive(false);
             }
-        } 
+        }
 
         if (timeElapsed <= rollingTime)
         {
@@ -78,7 +82,8 @@ public class GulaMov : MonoBehaviour
                 flip();
                 currentPoint = pointB.transform;
             }
-        } else
+        }
+        else
         {
             gulaState = GulaState.Iddle;
             animator.SetBool("startedRoll", false);
@@ -94,5 +99,10 @@ public class GulaMov : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+    }
+
+    private void spawnBattery()
+    {
+        Instantiate(batteryPrefab, new Vector3(GulaMov.instance.transform.position.x, GulaMov.instance.transform.position.y + 3f, GulaMov.instance.transform.position.z), Quaternion.identity);
     }
 }
