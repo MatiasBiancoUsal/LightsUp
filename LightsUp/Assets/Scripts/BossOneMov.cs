@@ -3,135 +3,99 @@ using UnityEngine;
 
 public class BossOneMov : MonoBehaviour
 {
-    public float horizontalDistance = 5f; // Distancia horizontal del movimiento en "8"
-    public float verticalDistance = 2f; // Distancia vertical del movimiento en "8"
-    public float speed = 1f; // Velocidad del movimiento
+    public float horizontalDistance = 5f;
+    public float verticalDistance = 2f;
+    public float speed = 1f;
+    public float stopDistance = 0.1f; 
 
-    private float timeElapsed = 0f; // Tiempo transcurrido para el movimiento
-    public bool infinito = true; // Inicialmente en true
+    private float timeElapsed = 0f;
+    public bool infinito = true;
     public bool volviendo = false;
 
     [Header("Seguir al jugador")]
-    public bool playerInRange = false; // Indica si el jugador está en rango
-    public float detectionRange = 6f; // Rango de visión del jefe
-    public Transform player; // Referencia al jugador
+    public bool playerInRange = false;
+    public float detectionRange = 6f;
+    public Transform player;
 
     public LayerMask layerJugador;
-    public int damageToPlayer = 1; // Cantidad de daño que se le hace al jugador
+    public int damageToPlayer = 3; 
+    public float damageInterval = 1f;
+    private float damageTimer = 0f;
+    private bool isGrabbingPlayer = false;
 
     public float waitTime = 2f;
+    public float retreatDistance = 1f;
 
-    private Vector3 spawnpoint; // Declarar spawnpoint
-    public GameObject Enemigo;
-    public bool MirarIzquierda;
-
+    private Vector3 spawnpoint;
+    private GameObject Enemigo;
+    private bool MirarIzquierda;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform; // Asigna al jugador al inicio
-        spawnpoint = transform.position; // Inicializa spawnpoint a la posición inicial del jefe
-        Enemigo = this.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        spawnpoint = transform.position;
+        Enemigo = gameObject;
     }
 
     void Update()
     {
-        // Verificar si el jugador está en rango
-        playerInRange = Physics2D.CircleCast(transform.position, detectionRange, Vector2.zero, 0, layerJugador).collider != null;
+        if (player != null)
+        {
+            playerInRange = Vector2.Distance(transform.position, player.position) <= detectionRange;
+        }
+
         Rotar();
+
         if (playerInRange)
         {
-            infinito = false; // Deja de moverse en "8" para perseguir al jugador
+            infinito = false;
             volviendo = true;
-            PursuePlayer(); // Persigue al jugador si está en rango
-            if (player.position.x <= Enemigo.transform.position.x)
-            {
-                MirarIzquierda = true;
-            }
-            else
-            {
-                MirarIzquierda = false; 
-            }
+            PursuePlayer();
 
+            MirarIzquierda = player.position.x <= Enemigo.transform.position.x;
+
+            if (isGrabbingPlayer)
+            {
+                ApplyDamageToPlayer(); 
+            }
         }
         else
         {
             if (!volviendo)
             {
-                MoveInFigureEight(); // Movimiento en forma de "8" si el jugador no está en rango
-
+                MoveInFigureEight();
             }
             else
             {
-                Volver(); // Lógica para volver a un punto inicial
-
-
+                Volver();
             }
         }
+
+        damageTimer -= Time.deltaTime; 
     }
 
     void Rotar()
     {
-        if (MirarIzquierda)
-        {
-            Enemigo.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        }
-        else
-        {
-            Enemigo.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        }
+        Enemigo.transform.rotation = MirarIzquierda ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
     }
 
     void MoveInFigureEight()
     {
-        // Incrementar el tiempo en función de la velocidad
         timeElapsed += Time.deltaTime * speed;
-
-        // Calcular la posición en forma de "8"
-        float x = horizontalDistance * Mathf.Sin(timeElapsed); // Movimiento horizontal
-        float y = verticalDistance * Mathf.Sin(2 * timeElapsed); // Movimiento vertical (doble frecuencia)
-
-
-        if (MirarIzquierda)
-        {
-            if(x<0 && y<0)
-            {
-                MirarIzquierda = false;
-            }
-        }
-        else
-        {
-            if (x > 0 && y < 0)
-            {
-                MirarIzquierda = true;
-            }
-        }
-
-        // Actualizar la posición del enemigo, manteniendo la altura constante
+        float x = horizontalDistance * Mathf.Sin(timeElapsed);
+        float y = verticalDistance * Mathf.Sin(2 * timeElapsed);
         transform.position = new Vector3(x, y + spawnpoint.y, transform.position.z);
     }
 
     void Volver()
     {
-        if (Enemigo.transform.position.x > 0) {
-
-            MirarIzquierda = true; 
-        }
-
-        else {
-
-            MirarIzquierda = false;        
-        }
-
+        MirarIzquierda = Enemigo.transform.position.x > spawnpoint.x;
         timeElapsed = 0;
+        transform.position = Vector3.MoveTowards(transform.position, spawnpoint, speed * Time.deltaTime);
 
-        Vector3 directionToPlayer = (Vector3.zero - transform.position).normalized;
-
-        transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, speed * Time.deltaTime);
-
-        if (transform.position == Vector3.zero)
+        if (Vector3.Distance(transform.position, spawnpoint) < stopDistance)
         {
-            StartCoroutine(ActivateReturnVariables()); // CORRECCIÓN: Se usa 'StartCoroutine'
+            StartCoroutine(ActivateReturnVariables());
         }
     }
 
@@ -145,21 +109,67 @@ public class BossOneMov : MonoBehaviour
 
     void PursuePlayer()
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        transform.position += new Vector3(directionToPlayer.x, directionToPlayer.y, 0) * speed * Time.deltaTime;
+        if (player != null)
+        {
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            transform.position += directionToPlayer * speed * Time.deltaTime;
+
+            
+            if (Vector3.Distance(transform.position, player.position) < stopDistance)
+            {
+                speed = Mathf.Lerp(speed, 0, Time.deltaTime * 5f);
+            }
+            else
+            {
+                speed = 1f; 
+            }
+        }
     }
 
-    // Detectar colisiones con el jugador
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            // Acceder al script del jugador para restarle vida
-            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            if (!isGrabbingPlayer)
             {
-                playerHealth.ReceiveDamage(damageToPlayer); // Llamar al método que reduce la vida del jugador
+                isGrabbingPlayer = true;
+                StartCoroutine(RetreatFromPlayer());
             }
+        }
+    }
+
+    private IEnumerator RetreatFromPlayer()
+    {
+        Vector3 retreatDirection = (transform.position - player.position).normalized;
+        Vector3 retreatPosition = transform.position + retreatDirection * retreatDistance;
+        float retreatTime = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < retreatTime)
+        {
+            transform.position = Vector3.Lerp(transform.position, retreatPosition, (elapsedTime / retreatTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isGrabbingPlayer = false; 
+    }
+
+    private void ApplyDamageToPlayer()
+    {
+        PlayerHealth playerHealth = player?.GetComponent<PlayerHealth>();
+        if (playerHealth != null && damageTimer <= 0)
+        {
+            playerHealth.ReceiveDamage(damageToPlayer);
+            damageTimer = damageInterval;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isGrabbingPlayer = false;
         }
     }
 
@@ -169,6 +179,7 @@ public class BossOneMov : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }
+
 
 
 
