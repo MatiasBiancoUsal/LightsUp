@@ -9,6 +9,7 @@ public class BossHealth : MonoBehaviour
     public float maxHealth;
     public Slider healthSlider;
     public Animator animator;
+    public GameObject keyGameObject;
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class BossHealth : MonoBehaviour
 
     void Death()
     {
+        Instantiate(keyGameObject, new Vector3(GulaMov.instance.transform.position.x, GulaMov.instance.transform.position.y + 3f, GulaMov.instance.transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 
