@@ -41,7 +41,12 @@ public class FlashlightManager : MonoBehaviour
 
     void Update()
     {
-        if (!PauseMenu.instance.isPaused)
+        if (DialogueManager.Instance.isDialogueActive) 
+        {
+            FlashlightOff();
+        }
+
+        if (!PauseMenu.instance.isPaused && !DialogueManager.Instance.isDialogueActive)
         {
             handleFlashlightState();
             handleInput();

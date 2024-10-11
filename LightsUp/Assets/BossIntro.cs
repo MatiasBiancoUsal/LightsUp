@@ -8,7 +8,6 @@ public class BossIntro : MonoBehaviour
     public GameObject door;
     public CinemachineVirtualCamera CameraStart;
     public CinemachineVirtualCamera CameraFight;
-    public CinemachineVirtualCamera CameraEnd;
 
     public GameObject gulaHealthBar;
 
@@ -19,7 +18,11 @@ public class BossIntro : MonoBehaviour
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.O) && DialogueManager.Instance.isDialogueActive)
+        {
+            DialogueManager.Instance.DisplayNextDialogueLine();
+            GulaMov.instance.started = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,14 +34,6 @@ public class BossIntro : MonoBehaviour
             door.gameObject.GetComponent<Door>().SetIsOpening(false);
 
             gulaHealthBar.SetActive(true);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            CameraManager.SwitchCamera(CameraEnd);
         }
     }
 }

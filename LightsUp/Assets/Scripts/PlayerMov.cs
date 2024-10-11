@@ -62,8 +62,13 @@ public class PlayerMov : MonoBehaviour
 
     void Update()
     {
+        if (DialogueManager.Instance.isDialogueActive)
+        {
+            Horizontal = 0;
+            Vertical = 0;
+        }
 
-        if (!PauseMenu.instance.isPaused && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive && !stopInput)
+        if (!PauseMenu.instance.isPaused && PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive && !stopInput && !DialogueManager.Instance.isDialogueActive)
         {
             Horizontal = Input.GetAxis("Horizontal");
             Vertical = Input.GetAxis("Vertical");
@@ -103,6 +108,8 @@ public class PlayerMov : MonoBehaviour
 
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
         }
+
+
     }
 
     private void FixedUpdate()

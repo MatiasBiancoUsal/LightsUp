@@ -5,6 +5,8 @@ public class GulaMov : MonoBehaviour
     public float speed = 2f;
     public float enragedSpeed = 4f;
 
+    public bool started = false;
+
     public GameObject enragedLight;
     public GameObject normalLight;
 
@@ -49,47 +51,52 @@ public class GulaMov : MonoBehaviour
     }
 
     void Update()
-    {
-        timeElapsed += Time.deltaTime;
-
-        if (enraged) 
+    { 
+        if (started)
         {
-            speed = enragedSpeed;
+            timeElapsed += Time.deltaTime;
 
-            if (!enragedAnimation)
+            if (enraged)
             {
-                enragedAnimation = true;
-                if (gulaState != GulaState.Iddle) timeElapsed = 8f;
-                enragedLight.SetActive(true);
-                normalLight.SetActive(false);
-            }
-        } 
+                speed = enragedSpeed;
 
-        if (timeElapsed <= rollingTime)
-        {
-            gulaState = GulaState.Roll;
-            animator.SetBool("startedRoll", true);
-            animator.SetBool("stoppedRoll", false);
-            Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
+                if (!enragedAnimation)
+                {
+                    enragedAnimation = true;
+                    if (gulaState != GulaState.Iddle) timeElapsed = 8f;
+                    enragedLight.SetActive(true);
+                    normalLight.SetActive(false);
+                }
+            }
 
-            if (transform.position.x >= currentPoint.position.x && currentPoint == pointB.transform)
+            if (timeElapsed <= rollingTime)
             {
-                flip();
-                currentPoint = pointA.transform;
+                gulaState = GulaState.Roll;
+                animator.SetBool("startedRoll", true);
+                animator.SetBool("stoppedRoll", false);
+                Rigidbody.velocity = new Vector2(currentPoint == pointB.transform ? speed : -speed, Rigidbody.velocity.y);
+
+                if (transform.position.x >= currentPoint.position.x && currentPoint == pointB.transform)
+                {
+                    flip();
+                    currentPoint = pointA.transform;
+                }
+                else if (transform.position.x <= currentPoint.position.x && currentPoint == pointA.transform)
+                {
+                    flip();
+                    currentPoint = pointB.transform;
+                }
             }
-            else if (transform.position.x <= currentPoint.position.x && currentPoint == pointA.transform)
+            else
             {
-                flip();
-                currentPoint = pointB.transform;
+                gulaState = GulaState.Iddle;
+                animator.SetBool("startedRoll", false);
+                animator.SetBool("stoppedRoll", true);
+                Rigidbody.velocity = new Vector2(0, 0);
+                if (timeElapsed > iddleTime + rollingTime) timeElapsed = 0;
             }
-        } else
-        {
-            gulaState = GulaState.Iddle;
-            animator.SetBool("startedRoll", false);
-            animator.SetBool("stoppedRoll", true);
-            Rigidbody.velocity = new Vector2(0, 0);
-            if (timeElapsed > iddleTime + rollingTime) timeElapsed = 0;
         }
+       
 
     }
 
