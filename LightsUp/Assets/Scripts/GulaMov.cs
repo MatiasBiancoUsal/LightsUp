@@ -24,6 +24,9 @@ public class GulaMov : MonoBehaviour
     public float timeElapsed = 0f;
 
     public Animator animator;
+
+    public GameObject batteryPrefab;
+
     public enum GulaState
     {
         Roll,
@@ -42,6 +45,7 @@ public class GulaMov : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         currentPoint = pointB.transform;
 
+        Invoke("spawnBattery", 50f);
     }
 
     void Update()
@@ -94,5 +98,10 @@ public class GulaMov : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+    }
+
+    private void spawnBattery()
+    {
+        Instantiate(batteryPrefab, new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z), Quaternion.identity);
     }
 }
