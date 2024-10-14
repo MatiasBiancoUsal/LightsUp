@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class LevelDisplay : MonoBehaviour
 {
 
-  
-    public int currentLevel = 1;
+
+    public string currentLevel = "1";
     public TMP_Text levelText;   
 
     void Start()
@@ -26,6 +26,6 @@ public class LevelDisplay : MonoBehaviour
    
     void UpdateLevelText()
     {
-        levelText.text = "Nivel: " + currentLevel.ToString();
+        levelText.text = currentLevel;
     }
 }
