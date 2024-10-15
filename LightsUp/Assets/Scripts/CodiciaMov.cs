@@ -35,7 +35,7 @@ public class CodiciaMov : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.position.x, transform.position.y, transform.position.z), speed * Time.deltaTime);
         if (Vector2.Distance(transform.position, new Vector2(player.position.x, transform.position.y)) < distance)
         {
-            CodiciaAttack.instance.AttackPlayer();
+            CodiciaAttack.instance.attackPlayer();
         } else
         {
             animator.SetBool("attack", false);
@@ -49,6 +49,9 @@ public class CodiciaMov : MonoBehaviour
 
     public void restartMovement()
     {
+        CodiciaAttack.instance.disableWeakPoint();
         speed = 3f;
     }
+
+
 }

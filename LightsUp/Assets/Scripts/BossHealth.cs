@@ -15,7 +15,7 @@ public class BossHealth : MonoBehaviour
     public Animator animator;
     public GameObject keyGameObject;
 
-    public GameObject gulaHealthBar;
+    public GameObject bossHealthBar;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class BossHealth : MonoBehaviour
                 if (health < 0)
                 {
                     Death();
-                    gulaHealthBar.SetActive(false);
+                    bossHealthBar.SetActive(false);
                 }
             }
             else
@@ -58,7 +58,7 @@ public class BossHealth : MonoBehaviour
                 if (health < 0)
                 {
                     Death();
-                    gulaHealthBar.SetActive(false);
+                    bossHealthBar.SetActive(false);
                 }
             }
 

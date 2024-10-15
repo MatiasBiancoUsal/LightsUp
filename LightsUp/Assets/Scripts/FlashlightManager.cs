@@ -147,7 +147,11 @@ public class FlashlightManager : MonoBehaviour
 
             foreach (GameObject enemy in enemies)
             {
+                if (enemy.transform.GetChild(0).gameObject != null)
+                {
                 enemy.transform.GetChild(0).gameObject.SetActive(false);
+
+                }
             }
         }
     }

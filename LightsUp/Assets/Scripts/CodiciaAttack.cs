@@ -8,6 +8,9 @@ public class CodiciaAttack : MonoBehaviour
 
     private Animator animator;
 
+    public GameObject attackCollider;
+    public GameObject weakPoint;
+
 
     private void Awake()
     {
@@ -25,9 +28,29 @@ public class CodiciaAttack : MonoBehaviour
     {
     }
 
-    public void AttackPlayer()
+    public void attackPlayer()
     {
         CodiciaMov.instance.stopMovement();
         animator.SetBool("attack", true);
+    }
+
+    public void enableCollider()
+    {
+        attackCollider.SetActive(true);
+        enableWeakpoint();
+    }
+
+    public void enableWeakpoint() { 
+        weakPoint.SetActive(true); 
+    }
+
+    public void disableCollider()
+    {
+        attackCollider.SetActive(false);
+    } 
+
+    public void disableWeakPoint()
+    {
+        weakPoint.SetActive(false);
     }
 }
