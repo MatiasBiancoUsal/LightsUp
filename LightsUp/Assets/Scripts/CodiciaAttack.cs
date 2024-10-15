@@ -27,6 +27,7 @@ public class CodiciaAttack : MonoBehaviour
 
     public void AttackPlayer()
     {
-        animator.SetTrigger("attack");
+        CodiciaMov.instance.stopMovement();
+        animator.SetBool("attack", true);
     }
 }
