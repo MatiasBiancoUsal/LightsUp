@@ -48,22 +48,15 @@ public class SubditoController : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-        }
-    /* Dejo comentado porque solo respawnean los subditos, luego estará la funcion para que hagan daño/mueran. 
+        } 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
-                PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-                if (playerHealth != null)
-                {
-                    playerHealth.ReceiveDamage(damage); 
-                }
-
                 Destroy(gameObject);
             }
         }
-       */
+      
 
     private void CheckGround()
     {
