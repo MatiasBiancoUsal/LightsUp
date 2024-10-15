@@ -5,8 +5,6 @@ public class GulaMov : MonoBehaviour
     public float speed = 2f;
     public float enragedSpeed = 4f;
 
-    public bool started = false;
-
     public GameObject enragedLight;
     public GameObject normalLight;
 
@@ -52,7 +50,7 @@ public class GulaMov : MonoBehaviour
 
     void Update()
     { 
-        if (started)
+        if (BossManager.instance.started)
         {
             timeElapsed += Time.deltaTime;
 

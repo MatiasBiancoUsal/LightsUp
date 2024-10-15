@@ -21,7 +21,7 @@ public class BossIntro : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O) && DialogueManager.Instance.isDialogueActive)
         {
             DialogueManager.Instance.DisplayNextDialogueLine();
-            GulaMov.instance.started = true;
+            BossManager.instance.started = true;
         }
     }
 
