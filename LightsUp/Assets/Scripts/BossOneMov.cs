@@ -18,15 +18,15 @@ public class BossOneMov : MonoBehaviour
     public Transform player;
 
     public LayerMask layerJugador;
-    public int damageToPlayer = 1;  // Daño por cada agarre
-    public float damageInterval = 1f;  // Intervalo de daño
+    public int damageToPlayer = 1;  
+    public float damageInterval = 1f;  
     private float damageTimer = 0f;
     private bool isGrabbingPlayer = false;
-    private bool playerIsNear = false;  // Para saber si el jugador está cerca después de soltarse
+    private bool playerIsNear = false;  
 
-    // Nuevo valor para controlar la duración del agarre
+    
     public float grabbingDuration = 2f;
-    private float grabbingTimer = 0f; // Temporizador para el agarre
+    private float grabbingTimer = 0f; 
 
     public float waitTime = 2f;
     public float retreatDistance = 1f;
@@ -35,28 +35,33 @@ public class BossOneMov : MonoBehaviour
     private GameObject Enemigo;
     private bool MirarIzquierda;
 
-    private Rigidbody2D playerRb; // Referencia al Rigidbody2D del jugador
-    private Animator bossAnimator; // Referencia al Animator del boss
+    private Rigidbody2D playerRb; 
+    private Animator bossAnimator; 
 
-    // Variable para controlar si el boss ha sido atacado
+    
     public bool isAttacked = false;
 
-    // Variables para controlar si el jugador se mueve
+    
     private bool playerHasMoved = false;
-    private bool playerIsGrabbed = false; // Para saber si el jugador ya ha sido agarrado
+    private bool playerIsGrabbed = false; 
+
+    
+    public float escapeTimeLimit = 1f;
+    private float escapeTimer = 0f; 
+    private bool playerEscaped = false; 
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         if (player != null)
         {
-            playerRb = player.GetComponent<Rigidbody2D>(); // Obtiene el Rigidbody2D del jugador
+            playerRb = player.GetComponent<Rigidbody2D>(); 
         }
 
         spawnpoint = transform.position;
         Enemigo = gameObject;
 
-        // Obtener el Animator del boss
+       
         bossAnimator = GetComponent<Animator>();
     }
 
@@ -67,13 +72,13 @@ public class BossOneMov : MonoBehaviour
             playerInRange = Vector2.Distance(transform.position, player.position) <= detectionRange;
         }
 
-        if (playerInRange && !isGrabbingPlayer && !isAttacked) // Solo persigue si no está agarrando al jugador ni ha sido atacado
+        if (playerInRange && !isGrabbingPlayer && !isAttacked) 
         {
             infinito = false;
             volviendo = true;
             PursuePlayer();
 
-            // Actualizar MirarIzquierda según la posición relativa del jugador
+           
             MirarIzquierda = player.position.x > Enemigo.transform.position.x;
 
             if (Vector3.Distance(transform.position, player.position) < stopDistance && !isGrabbingPlayer)
@@ -83,42 +88,47 @@ public class BossOneMov : MonoBehaviour
         }
         else if (!playerInRange && !isGrabbingPlayer)
         {
-            if (!playerIsNear) // Si el jugador se alejó completamente
+            if (!playerIsNear) 
             {
                 MoveInFigureEight();
             }
         }
         else
         {
-            // Si el jugador ya no está cerca y no ha sido atacado
+            
             if (playerIsNear && !isGrabbingPlayer)
             {
-                // El jugador está en rango después de haberse alejado, vuelve a perseguirlo
+                
                 PursuePlayer();
             }
         }
 
-        Rotar(); // Asegurar que el boss rota en la dirección correcta
+        Rotar(); 
         damageTimer -= Time.deltaTime;
 
-        // Si el boss está agarrando al jugador, maneja el tiempo de agarre
+        
         if (isGrabbingPlayer)
         {
             grabbingTimer -= Time.deltaTime;
-            if (grabbingTimer <= 0)
+            escapeTimer += Time.deltaTime; 
+
+            if (Input.GetKeyDown(KeyCode.Space) && escapeTimer <= escapeTimeLimit)
             {
+                
+                playerEscaped = true;
                 ReleasePlayer();
             }
-            else
+            else if (grabbingTimer <= 0 && !playerEscaped)
             {
                 ApplyDamageToPlayer();
+                ReleasePlayer();
             }
         }
     }
 
     void Rotar()
     {
-        // Rota el boss según la dirección en la que debe mirar
+        
         Enemigo.transform.rotation = MirarIzquierda ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
     }
 
@@ -132,7 +142,7 @@ public class BossOneMov : MonoBehaviour
 
     void PursuePlayer()
     {
-        if (!isGrabbingPlayer && player != null) // Solo lo persigue si no lo está agarrando
+        if (!isGrabbingPlayer && player != null) 
         {
             Vector3 directionToPlayer = (player.position - transform.position).normalized;
             transform.position += directionToPlayer * speed * Time.deltaTime;
@@ -150,56 +160,58 @@ public class BossOneMov : MonoBehaviour
 
     private IEnumerator GrabPlayer()
     {
-        // Inicia la animación de agarre (opcional)
+        
         if (bossAnimator != null)
         {
             bossAnimator.SetTrigger("GrabPlayer");
         }
 
-        // Congela al jugador
+        
         if (playerRb != null)
         {
             playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
         isGrabbingPlayer = true;
-        grabbingTimer = grabbingDuration; // Inicia el temporizador de agarre
-        playerIsGrabbed = true;  // Marca al jugador como agarrado
+        grabbingTimer = grabbingDuration; 
+        playerIsGrabbed = true;  
+        playerEscaped = false; 
+        escapeTimer = 0f; 
 
-        // Marcar que el jugador está cerca del boss y que el boss debería seguirlo
+        
         playerIsNear = true;
 
-        yield return new WaitForSeconds(grabbingDuration); // Mantener al jugador agarrado por un tiempo
+        yield return new WaitForSeconds(grabbingDuration); 
 
-        // Liberar al jugador después de la duración
+       
         ReleasePlayer();
     }
 
-    // Esta función será llamada desde un evento de la animación
+    
     public void ReleasePlayer()
     {
-        // Liberar al jugador cuando el boss lo suelta
+       
         isGrabbingPlayer = false;
         playerIsGrabbed = false;
 
         if (playerRb != null)
         {
-            playerRb.constraints = RigidbodyConstraints2D.None; // Libera al jugador
+            playerRb.constraints = RigidbodyConstraints2D.None; 
         }
 
-        // Restaurar el movimiento del boss
+        
         StartCoroutine(ResetMovement());
     }
 
     private IEnumerator ResetMovement()
     {
-        // Espera un momento para asegurarse de que la animación y el soltar estén completos
+      
         yield return new WaitForSeconds(0.5f);
-        infinito = true;   // Activar el movimiento en infinito
-        volviendo = false; // El Boss ya no está en modo de volver
-        timeElapsed = 0;   // Restablecer el tiempo de movimiento
+        infinito = true;   
+        volviendo = false;
+        timeElapsed = 0;   
 
-        // Una vez que el jugador se ha alejado, cambiar el estado del jugador
+       
         playerIsNear = false;
     }
 
@@ -213,15 +225,14 @@ public class BossOneMov : MonoBehaviour
         }
     }
 
-    // Nueva función para aplicar el daño y marcar que el boss fue atacado
+    
     public void ReceiveDamage()
     {
         isAttacked = true;
-        // Detenemos el movimiento cuando el boss es atacado
+       
         infinito = false;
         volviendo = false;
-        // Aquí puedes agregar efectos visuales o sonidos
-        // Si necesitas hacer alguna acción especial después del daño, agrégala aquí.
+        
     }
 
     private void OnDrawGizmos()
@@ -230,6 +241,9 @@ public class BossOneMov : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }
+
+
+
 
 
 
