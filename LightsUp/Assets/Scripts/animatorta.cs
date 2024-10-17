@@ -53,11 +53,11 @@ public class animatorta : MonoBehaviour
         }
 
         // Animación Crouch
-        if (playerMovement.Horizontal == 0 && playerMovement.isCrouched)
+       /* if (playerMovement.Horizontal == 0 && playerMovement.isCrouched)
         {
             animator.SetFloat("Y blend", -0.3f);
             animator.SetFloat("X blend", -1);
-        }
+        }*/
 
         // Animación CrawlWalk
         if (playerMovement.Horizontal != 0 && playerMovement.isCrouched)
@@ -75,10 +75,25 @@ public class animatorta : MonoBehaviour
         animator.SetBool("isRolling", Input.GetKey(KeyCode.X) && playerMovement.canRoll && playerMovement.Horizontal != 0);
 
         // Animación PickUp
-        if (playerPushPull.isHoldingBox)
+         if (playerPushPull.isHoldingBox)
+         {
+             animator.SetFloat("Y blend", -1);
+             animator.SetFloat("X blend", -1);
+         }
+
+        //Animacion Change
+
+        if (Input.GetKey(KeyCode.F))
         {
             animator.SetFloat("Y blend", -1);
-            animator.SetFloat("X blend", -1);
+            animator.SetFloat("X blend", 0);
+        }
+
+        //animator.Getlayerwight o setlayerweight (numero del 0-1)
+
+        if(playerMovement.Horizontal == 0 && playerMovement.isCrouched) 
+        {
+            animator.GetLayerWeight(0);
         }
     }
 
