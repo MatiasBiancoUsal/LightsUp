@@ -36,7 +36,6 @@ public class ShieldActivation : MonoBehaviour
             {
                 protection--; 
 
-                Debug.Log("Escudo absorbió un ataque. Protección restante: " + protection);
 
                 
                 if (protection <= 0 && activeShield != null)
@@ -48,7 +47,6 @@ public class ShieldActivation : MonoBehaviour
             else
             {
                 
-                Debug.Log("Jugador recibió daño.");
                 PlayerHealth.instance.ReceiveDamage(1);
             }
         }
