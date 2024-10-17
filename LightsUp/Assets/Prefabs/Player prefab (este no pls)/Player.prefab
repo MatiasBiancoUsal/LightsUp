@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 40879081415480267}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.574, y: 0.67, z: 0}
+  m_LocalPosition: {x: 0, y: 0.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1187889033
-  m_SortingLayer: 0
+  m_SortingLayerID: 389000421
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -4319824251721925158, guid: 4ef404ef8e7342f4db938a8e98af25b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -423,10 +423,10 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.13
+  m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000031d92953774032b91b2883a9
+  m_ApplyToSortingLayers: 9deb1ed800000000174a1ed297f4fcc563218e50852516eb8bf2e67dd916aee4839011d97b991c74a197ceb5ffa2511e61970246835abba82f9cf06a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 2
@@ -444,10 +444,10 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 20.28
-  m_PointLightOuterAngle: 52.02
+  m_PointLightInnerAngle: 20
+  m_PointLightOuterAngle: 52
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 7.46867
+  m_PointLightOuterRadius: 7.4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 0.62493086, g: 0, b: 1, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 0000000031d92953774032b91b2883a9
@@ -595,10 +595,10 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 20.28
-  m_PointLightOuterAngle: 52.02
+  m_PointLightInnerAngle: 20
+  m_PointLightOuterAngle: 52
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 7.46867
+  m_PointLightOuterRadius: 7.4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -1123,7 +1123,7 @@ MonoBehaviour:
   m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 0000000031d92953774032b91b2883a9
+  m_ApplyToSortingLayers: 9deb1ed800000000174a1ed297f4fcc563218e50852516eb8bf2e67dd916aee4839011d97b991c74a197ceb5ffa2511e61970246835abba82f9cf06a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 2
@@ -1141,10 +1141,10 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 20.25
+  m_PointLightInnerAngle: 20
   m_PointLightOuterAngle: 52
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 9.8
+  m_PointLightOuterRadius: 7.4
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -1363,8 +1363,8 @@ MonoBehaviour:
   groundCheckLength: 0.6
   isRolling: 0
   canRoll: 1
-  rollingTime: 0.5
-  rollingCooldown: 2
+  rollingTime: 0.8
+  rollingCooldown: 1
   rollingPower: 4
   speedCrouch: 1.8
   isCrouched: 0
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a57aeeea94ec1448be0927da1127ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  box: {fileID: 0}
+  box: {fileID: 4635388541015479708, guid: 961e7800d84dc154f9b7d93037cd3cff, type: 3}
   isHoldingBox: 0
 --- !u!114 &2790111533461326517
 MonoBehaviour:
@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 774032b9
+  m_ApplyToSortingLayers: e5ac2f17
   m_LightCookieSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 2
