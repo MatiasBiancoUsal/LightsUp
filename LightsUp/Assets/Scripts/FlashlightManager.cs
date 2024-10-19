@@ -7,7 +7,7 @@ public class FlashlightManager : MonoBehaviour
 {
     public GameObject FlashlightNormal;
     public GameObject FlashlightUV;
-    public GameObject FlashlightIR;
+    // public GameObject FlashlightIR;
 
     public float flashlightEnergy = 100f;
     public float totalEnergy;
@@ -18,7 +18,7 @@ public class FlashlightManager : MonoBehaviour
     {
         FlashlightNormal,
         FlashlightUV,
-        FlashlightIR
+        // FlashlightIR
     }
 
     public static FlashlightState flashlightState;
@@ -65,95 +65,95 @@ public class FlashlightManager : MonoBehaviour
                 FlashlightOff();
             }
 
-            if (flashlightState == FlashlightState.FlashlightIR)
-            {
-                GameObject scenery = GameObject.Find("Scenery");
+            //if (flashlightState == FlashlightState.FlashlightIR)
+            //{
+            //    GameObject scenery = GameObject.Find("Scenery");
 
-                if (scenery != null)
-                {
-                    Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
-                    Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
+            //    if (scenery != null)
+            //    {
+            //        Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
+            //        Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
 
-                    foreach (Renderer rend in allRenderers)
-                    {
-                        foreach (Material mat in rend.materials)
-                        {
-                            if (mat.HasProperty("_Color"))
-                            {
-                                Color color = mat.color;
-                                color.a = Mathf.Clamp01(0.5f);
-                                mat.color = color;
-                            }
-                        }
-                    }
+            //        foreach (Renderer rend in allRenderers)
+            //        {
+            //            foreach (Material mat in rend.materials)
+            //            {
+            //                if (mat.HasProperty("_Color"))
+            //                {
+            //                    Color color = mat.color;
+            //                    color.a = Mathf.Clamp01(0.5f);
+            //                    mat.color = color;
+            //                }
+            //            }
+            //        }
 
-                    foreach (Transform transform in allTransforms)
-                    {
-                        GameObject gameObject = transform.gameObject;
-                        if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = false;
-                    }
-                }
+            //        foreach (Transform transform in allTransforms)
+            //        {
+            //            GameObject gameObject = transform.gameObject;
+            //            if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = false;
+            //        }
+            //    }
 
-                foreach (string enemyTag in enemyTags)
-                {
-                    GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+            //    foreach (string enemyTag in enemyTags)
+            //    {
+            //        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-                    foreach (GameObject enemy in enemies)
-                    {
-                        enemy.transform.GetChild(0).gameObject.SetActive(true);
-                    }
-                }
-            }
-            else
-            {
-                ExitIR();
-            }
+            //        foreach (GameObject enemy in enemies)
+            //        {
+            //            enemy.transform.GetChild(0).gameObject.SetActive(true);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    ExitIR();
+            //}
         }
         
     }
 
     private void ExitIR()
     {
-        GameObject scenery = GameObject.Find("Scenery");
+        //GameObject scenery = GameObject.Find("Scenery");
 
-        if (scenery != null)
-        {
-            Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
-            Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
+        //if (scenery != null)
+        //{
+        //    Renderer[] allRenderers = scenery.GetComponentsInChildren<Renderer>();
+        //    Transform[] allTransforms = scenery.GetComponentsInChildren<Transform>();
 
-            foreach (Renderer rend in allRenderers)
-            {
-                foreach (Material mat in rend.materials)
-                {
-                    if (mat.HasProperty("_Color"))
-                    {
-                        Color color = mat.color;
-                        color.a = Mathf.Clamp01(1f);
-                        mat.color = color;
-                    }
-                }
-            }
+        //    foreach (Renderer rend in allRenderers)
+        //    {
+        //        foreach (Material mat in rend.materials)
+        //        {
+        //            if (mat.HasProperty("_Color"))
+        //            {
+        //                Color color = mat.color;
+        //                color.a = Mathf.Clamp01(1f);
+        //                mat.color = color;
+        //            }
+        //        }
+        //    }
 
-            foreach (Transform transform in allTransforms)
-            {
-                GameObject gameObject = transform.gameObject;
-                if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = true;
-            }
-        }
+        //    foreach (Transform transform in allTransforms)
+        //    {
+        //        GameObject gameObject = transform.gameObject;
+        //        if (gameObject.GetComponent<ShadowCaster2D>()) gameObject.GetComponent<ShadowCaster2D>().enabled = true;
+        //    }
+        //}
 
-        foreach (string enemyTag in enemyTags)
-        {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        //foreach (string enemyTag in enemyTags)
+        //{
+        //    GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-            foreach (GameObject enemy in enemies)
-            {
-                if (enemy.transform.GetChild(0).gameObject != null)
-                {
-                enemy.transform.GetChild(0).gameObject.SetActive(false);
+        //    foreach (GameObject enemy in enemies)
+        //    {
+        //        if (enemy.transform.GetChild(0).gameObject != null)
+        //        {
+        //        enemy.transform.GetChild(0).gameObject.SetActive(false);
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
     }
 
     private void handleInput()
@@ -192,11 +192,11 @@ public class FlashlightManager : MonoBehaviour
                 flashlightState = FlashlightState.FlashlightUV;
                 break;
             case FlashlightState.FlashlightUV:
-                flashlightState = FlashlightState.FlashlightIR;
-                break;
-            case FlashlightState.FlashlightIR:
                 flashlightState = FlashlightState.FlashlightNormal;
                 break;
+            //case FlashlightState.FlashlightIR:
+            //    flashlightState = FlashlightState.FlashlightNormal;
+            //    break;
         }
 
         setFlashlightState(flashlightState);
@@ -204,7 +204,7 @@ public class FlashlightManager : MonoBehaviour
 
     private void setFlashlightState(FlashlightState state)
     {
-        FlashlightOff(); // Ensure all flashlights are off before setting the new state
+        FlashlightOff();
 
         switch (state)
         {
@@ -214,9 +214,9 @@ public class FlashlightManager : MonoBehaviour
             case FlashlightState.FlashlightUV:
                 FlashlightUV.SetActive(isFlashlightOn);
                 break;
-            case FlashlightState.FlashlightIR:
-                FlashlightIR.SetActive(isFlashlightOn);
-                break;
+            //case FlashlightState.FlashlightIR:
+            //    FlashlightIR.SetActive(isFlashlightOn);
+            //    break;
         }
     }
 
@@ -224,8 +224,8 @@ public class FlashlightManager : MonoBehaviour
     {
         FlashlightNormal.SetActive(false);
         FlashlightUV.SetActive(false);
-        FlashlightIR.SetActive(false);
-        ExitIR();
+        // FlashlightIR.SetActive(false);
+        // ExitIR();
     }
 
     public void addEnergy(float amount)
