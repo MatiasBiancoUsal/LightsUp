@@ -14,7 +14,7 @@ public class PlayerSAttack : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.L) && FlashlightManager.instance.flashlightEnergy >= 10 )
+        if (Input.GetKeyDown(KeyCode.L) && FlashlightManager.instance.flashlightEnergy >= 10 && !PauseMenu.instance.isPaused)
         {
             FlashlightManager.instance.spendEnergy(10);
             CameraShake.instance.ShakeCamera();
