@@ -34,5 +34,9 @@ public class BossManager : MonoBehaviour
         {
             BossHealth.Instance.ReceiveDamageGula(damage);
         }
+        if (BossName == Boss.Codicia)
+        {
+            BossHealth.Instance.ReceiveDamageCodicia(damage);
+        }
     }
 }

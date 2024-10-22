@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -66,9 +67,25 @@ public class BossHealth : MonoBehaviour
         }
     }
 
+    public void ReceiveDamageCodicia(float damage)
+    {
+        health -= damage;
+        if (health < 0)
+        {
+            DeathCodicia();
+            bossHealthBar.SetActive(false);
+        }    
+    }
+
     void DeathGula()
     {
         Instantiate(keyGameObject, new Vector3(GulaMov.instance.transform.position.x, GulaMov.instance.transform.position.y + 3f, GulaMov.instance.transform.position.z), Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+    void DeathCodicia()
+    {
+        Instantiate(keyGameObject, new Vector3(CodiciaMov.instance.transform.position.x, CodiciaMov.instance.transform.position.y - 2f, CodiciaMov.instance.transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 
