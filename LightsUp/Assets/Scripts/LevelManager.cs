@@ -48,6 +48,16 @@ public class LevelManager : MonoBehaviour
         {
             SceneManager.LoadScene(previousSceneName);
         }
+
+        if (Input.GetKeyDown(KeyCode.O) && DialogueManager.Instance.isDialogueActive)
+        {
+            DialogueManager.Instance.DisplayNextDialogueLine();
+            if (levelState == LevelState.BossFight)
+            {
+                BossManager.instance.started = true;
+            }
+        }
+
     }
 
     public void ReloadScene()

@@ -21,7 +21,10 @@ public class BossIntro : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O) && DialogueManager.Instance.isDialogueActive)
         {
             DialogueManager.Instance.DisplayNextDialogueLine();
-            BossManager.instance.started = true;
+            if (LevelManager.instance.levelState == LevelManager.LevelState.BossFight)
+            {
+                BossManager.instance.started = true;
+            }
         }
     }
 
