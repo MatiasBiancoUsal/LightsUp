@@ -52,9 +52,9 @@ public class FlashlightDamage : MonoBehaviour
                             hit.collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(flashlightDamage);
                         }
 
-                        if (hit.collider.gameObject.GetComponent<BossHealth>() != null)
+                        if (hit.collider.gameObject.GetComponent<BossManager>() != null)
                         {
-                            hit.collider.gameObject.GetComponent<BossHealth>().ReceiveDamage(flashlightDamage);
+                            hit.collider.gameObject.GetComponent<BossManager>().ReceiveDamage(flashlightDamage);
                         }
                     }
                 }

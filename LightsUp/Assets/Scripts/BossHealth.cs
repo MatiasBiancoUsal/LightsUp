@@ -37,39 +37,36 @@ public class BossHealth : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(float damage)
+    public void ReceiveDamageGula(float damage)
     {
-        if (!PauseMenu.instance.isPaused)
+        if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
         {
-            if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
-            {
-                health -= damage * 2;
+            health -= damage * 2;
 
-                if (health < 0)
-                {
-                    Death();
-                    bossHealthBar.SetActive(false);
-                }
-            }
-            else
+            if (health < 0)
             {
-                health -= damage;
-
-                if (health < 0)
-                {
-                    Death();
-                    bossHealthBar.SetActive(false);
-                }
+                DeathGula();
+                bossHealthBar.SetActive(false);
             }
+        }
+        else
+        {
+            health -= damage;
 
-            if (health <= maxHealth / 2)
+            if (health < 0)
             {
-                if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
+                DeathGula();
+                bossHealthBar.SetActive(false);
             }
+        }
+
+        if (health <= maxHealth / 2)
+        {
+            if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
         }
     }
 
-    void Death()
+    void DeathGula()
     {
         Instantiate(keyGameObject, new Vector3(GulaMov.instance.transform.position.x, GulaMov.instance.transform.position.y + 3f, GulaMov.instance.transform.position.z), Quaternion.identity);
         Destroy(gameObject);
