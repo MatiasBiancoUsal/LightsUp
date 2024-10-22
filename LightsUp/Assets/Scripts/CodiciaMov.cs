@@ -11,6 +11,7 @@ public class CodiciaMov : MonoBehaviour
 
     public static CodiciaMov instance;
 
+    public GameObject batteryPrefab;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class CodiciaMov : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        Invoke("spawnBattery", 50f);
     }
 
     private void Update()
@@ -53,5 +55,8 @@ public class CodiciaMov : MonoBehaviour
         speed = 3f;
     }
 
-
+    private void spawnBattery()
+    {
+        Instantiate(batteryPrefab, new Vector3(transform.position.x, transform.position.y + -3f, transform.position.z), Quaternion.identity);
+    }
 }

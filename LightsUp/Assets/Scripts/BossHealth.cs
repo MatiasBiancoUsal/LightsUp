@@ -85,7 +85,7 @@ public class BossHealth : MonoBehaviour
 
     void DeathCodicia()
     {
-        Instantiate(keyGameObject, new Vector3(CodiciaMov.instance.transform.position.x, CodiciaMov.instance.transform.position.y - 2f, CodiciaMov.instance.transform.position.z), Quaternion.identity);
+        Instantiate(keyGameObject, new Vector3(CodiciaMov.instance.transform.position.x, CodiciaMov.instance.transform.position.y -3f, CodiciaMov.instance.transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 
