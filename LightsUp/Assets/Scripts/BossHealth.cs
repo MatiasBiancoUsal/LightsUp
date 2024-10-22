@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -37,41 +38,54 @@ public class BossHealth : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(float damage)
+    public void ReceiveDamageGula(float damage)
     {
-        if (!PauseMenu.instance.isPaused)
+        if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
         {
-            if (GulaMov.instance.gulaState == GulaMov.GulaState.Iddle)
-            {
-                health -= damage * 2;
+            health -= damage * 2;
 
-                if (health < 0)
-                {
-                    Death();
-                    bossHealthBar.SetActive(false);
-                }
-            }
-            else
+            if (health < 0)
             {
-                health -= damage;
-
-                if (health < 0)
-                {
-                    Death();
-                    bossHealthBar.SetActive(false);
-                }
+                DeathGula();
+                bossHealthBar.SetActive(false);
             }
+        }
+        else
+        {
+            health -= damage;
 
-            if (health <= maxHealth / 2)
+            if (health < 0)
             {
-                if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
+                DeathGula();
+                bossHealthBar.SetActive(false);
             }
+        }
+
+        if (health <= maxHealth / 2)
+        {
+            if (!GulaMov.instance.enraged) GulaMov.instance.enraged = true;
         }
     }
 
-    void Death()
+    public void ReceiveDamageCodicia(float damage)
+    {
+        health -= damage;
+        if (health < 0)
+        {
+            DeathCodicia();
+            bossHealthBar.SetActive(false);
+        }    
+    }
+
+    void DeathGula()
     {
         Instantiate(keyGameObject, new Vector3(GulaMov.instance.transform.position.x, GulaMov.instance.transform.position.y + 3f, GulaMov.instance.transform.position.z), Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+    void DeathCodicia()
+    {
+        Instantiate(keyGameObject, new Vector3(CodiciaMov.instance.transform.position.x, CodiciaMov.instance.transform.position.y - 2f, CodiciaMov.instance.transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 

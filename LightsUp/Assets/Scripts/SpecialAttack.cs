@@ -62,9 +62,9 @@ public class SpecialAttack : MonoBehaviour
                         collider.gameObject.GetComponent<EnemyHealth>().ReceiveDamage(damage);
                     }
 
-                    if (collider.gameObject.GetComponent<BossHealth>() != null)
+                    if (collider.gameObject.GetComponent<BossManager>() != null)
                     {
-                        collider.gameObject.GetComponent<BossHealth>().ReceiveDamage(damage);
+                        collider.gameObject.GetComponent<BossManager>().ReceiveDamage(damage);
                     }
                 }
             }
