@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    public Animator animator; 
+    public Animator animator;
     private bool esEmpujada = false;
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -12,11 +12,11 @@ public class Lever : MonoBehaviour
             esEmpujada = true;
             animator.SetTrigger("isPushing");
 
-            // Llama al método para activar el ascensor
+       
             Elevator ascensor = FindObjectOfType<Elevator>();
             if (ascensor != null)
             {
-                ascensor.ActivarPalanca(); 
+                ascensor.ActivarPalanca();
             }
         }
     }
@@ -24,6 +24,6 @@ public class Lever : MonoBehaviour
     public void ResetearPalanca()
     {
         esEmpujada = false;
-        animator.SetTrigger("resetear"); 
+        animator.SetTrigger("resetear");
     }
 }

@@ -35,13 +35,13 @@ public class Elevator : MonoBehaviour
     {
         if (jugadorEnAscensor)
         {
-            animator.SetTrigger("isUp");
+            animator.SetTrigger("isUp"); 
             palancaActivada = false; 
         }
     }
 
     public void ActivarPalanca()
     {
-        palancaActivada = true; // Marca la palanca como activada
+        palancaActivada = true; 
     }
 }
