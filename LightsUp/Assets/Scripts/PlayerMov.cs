@@ -109,6 +109,12 @@ public class PlayerMov : MonoBehaviour
             rb2d.velocity = new Vector2(Horizontal * speed, rb2d.velocity.y);
         }
 
+        else
+        {
+            // Si el jugador está muerto, detener movimiento.
+            rb2d.velocity = Vector2.zero;
+        }
+
 
     }
 
