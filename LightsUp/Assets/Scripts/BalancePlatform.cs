@@ -1,46 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BalancePlatform : MonoBehaviour
 {
-    public Rigidbody2D platformRigidbody;   // Rigidbody de la plataforma
-    public Transform playerTransform;       // Transform del jugador
-    public float balanceForce = 10f;        // Fuerza de balanceo para aplicar torque
-    public float maxRotation = 30f;         // Grados máximos que puede rotar la plataforma
+    public Rigidbody2D platformRigidbody;   
+    public Transform playerTransform;        
+    public float balanceForce = 10f;        
+    public float maxRotation = 30f;         
+    public float resetSpeed = 10f;          
+
+    private bool playerOnPlatform = false;
 
     private void Start()
     {
-        platformRigidbody.freezeRotation = false; // Permite que la plataforma rote
+        platformRigidbody.freezeRotation = false; 
     }
 
     void Update()
     {
+        
+        playerOnPlatform = IsPlayerOnPlatform();
 
-        if (IsPlayerOnPlatform())  // Función que detecta si el jugador está en la plataforma
+        if (playerOnPlatform)
         {
-            ApplyBalance();  // Aplica torque a la plataforma dependiendo de la posición del jugador
+            ApplyBalance(); 
+        }
+        else
+        {
+            
+            CorrectPlatformRotation();
         }
     }
 
-    // Comprueba si el jugador está en la plataforma
+    
     bool IsPlayerOnPlatform()
     {
-        
         float distance = Vector2.Distance(playerTransform.position, transform.position);
         float platformWidth = GetComponent<Collider2D>().bounds.size.x;
 
-        return distance < platformWidth / 2f; // Asume que el jugador está en la plataforma si está dentro del ancho de la plataforma
+        return distance < platformWidth / 2f; 
     }
 
-    // Aplica torque a la plataforma dependiendo de la posición del jugador
+    
     void ApplyBalance()
     {
-        
         float playerRelativePosition = playerTransform.position.x - transform.position.x;
-
-        
         float appliedTorque = playerRelativePosition * balanceForce;
 
-        // Limitar la rotación de la plataforma
+       
         if (platformRigidbody.rotation > maxRotation)
         {
             platformRigidbody.rotation = maxRotation;
@@ -51,11 +59,30 @@ public class BalancePlatform : MonoBehaviour
         }
         else
         {
-            // Aplicar el torque para hacer que la plataforma se incline
+           
             platformRigidbody.AddTorque(-appliedTorque);
         }
     }
+
+   
+    void CorrectPlatformRotation()
+    {
+       
+        if (Mathf.Abs(platformRigidbody.rotation) > 0.1f) 
+        {
+            
+            float newRotation = Mathf.MoveTowards(platformRigidbody.rotation, 0, resetSpeed * Time.deltaTime);
+            platformRigidbody.rotation = newRotation; 
+        }
+    }
 }
+
+
+
+
+
+
+
 
 
 
