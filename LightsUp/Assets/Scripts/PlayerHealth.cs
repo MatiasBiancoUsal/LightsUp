@@ -69,16 +69,31 @@ public class PlayerHealth : MonoBehaviour
             {
                 state = PlayerStates.Dead;
                 health = 0;
+
+                // Activar la animación de muerte.
+                animator.SetTrigger("death");
+
+                // Para que la reaparición o finalización ocurra después de la animación de muerte,
+                // puedes crear un método para ser llamado cuando la animación termine.
+                Invoke("PlayerDeath", 1.5f); // Espera a que termine la animación (ajusta el tiempo si es necesario)
+
                 //animatorta.instance.DeathAnimation();
-                LevelManager.instance.RespawnPlayer();
+                /*LevelManager.instance.RespawnPlayer();*/
+
+                
             }
 
             invincibleCounter = invincibleLength;
         }
+
         else
         {
 
         }
+    }
+    void PlayerDeath()
+    {
+        LevelManager.instance.RespawnPlayer();
     }
 
     void UpdateBatteryDisplay()
