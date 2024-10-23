@@ -25,7 +25,7 @@ public class animatorta : MonoBehaviour
         Horizontal = Input.GetAxis("Horizontal");
 
         // Animación Idle
-        if (playerMovement.Horizontal == 0 && playerMovement.GroundDetect())
+        if (playerMovement.Horizontal == 0 && playerMovement.GroundDetect() && !playerMovement.isCrouched)
         {
             animator.SetFloat("Y blend", 0);
             animator.SetFloat("X blend", 0);
@@ -53,11 +53,7 @@ public class animatorta : MonoBehaviour
         }
 
         // Animación Crouch
-       /* if (playerMovement.Horizontal == 0 && playerMovement.isCrouched)
-        {
-            animator.SetFloat("Y blend", -0.3f);
-            animator.SetFloat("X blend", -1);
-        }*/
+        animator.SetBool("isCrouched", playerMovement.Horizontal == 0 && playerMovement.isCrouched);
 
         // Animación CrawlWalk
         if (playerMovement.Horizontal != 0 && playerMovement.isCrouched)
@@ -65,21 +61,15 @@ public class animatorta : MonoBehaviour
             animator.SetFloat("Y blend", 0.3f);
             animator.SetFloat("X blend", -1);
         }
-        else if (playerMovement.Horizontal == 0 && !playerMovement.isCrouched)
-        {
-            animator.SetFloat("Y blend", 0);
-            animator.SetFloat("X blend", 0);
-        }
 
         // Animación Roll
         animator.SetBool("isRolling", Input.GetKey(KeyCode.X) && playerMovement.canRoll && playerMovement.Horizontal != 0);
 
         // Animación PickUp
-         if (playerPushPull.isHoldingBox)
-         {
-             animator.SetFloat("Y blend", -1);
-             animator.SetFloat("X blend", -1);
-         }
+        animator.SetBool("isPickingUp", playerPushPull.isHoldingBox && playerMovement.Horizontal == 0);
+
+        // Animación PickUpMove
+        animator.SetBool("isPickingUpMoving", playerPushPull.isHoldingBox && playerMovement.Horizontal != 0);
 
         //Animacion Change
 
@@ -89,12 +79,6 @@ public class animatorta : MonoBehaviour
             animator.SetFloat("X blend", 0);
         }
 
-        //animator.Getlayerwight o setlayerweight (numero del 0-1)
-
-        if(playerMovement.Horizontal == 0 && playerMovement.isCrouched) 
-        {
-            animator.GetLayerWeight(0);
-        }
     }
 
     // Animación Death
