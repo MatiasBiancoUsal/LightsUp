@@ -9,7 +9,8 @@ public class MainMenuButtons : MonoBehaviour
 
     public static bool GameIsPaused = false;
 
-    public GameObject pauseMenuUI; 
+    public GameObject pauseMenuUI;
+    public GameObject Controlesmenu;
 
 
     public void StartIntro() // boton del menu "intro" deberia ser el nombre de la escena que tenga la animacion de introduccion
@@ -23,7 +24,7 @@ public class MainMenuButtons : MonoBehaviour
     public void StartGame() //este sirve para la siguiente escena en caso de que quieran saltear la into
     {
 
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Bosque 1");
 
     }
 
@@ -51,6 +52,23 @@ public class MainMenuButtons : MonoBehaviour
         pauseMenuUI.SetActive(false);
 
     }
+
+
+
+    public void controles() //este sirve para abrir el panel de  controles
+    {
+
+        Controlesmenu.SetActive(true);
+
+    }
+
+    public void vovler() //este sirve para la siguiente voler
+    {
+
+        Controlesmenu.SetActive(false);
+
+    }
+
 
 
 }
