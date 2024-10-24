@@ -22,7 +22,7 @@ public class EnemyMov : MonoBehaviour
     void Update()
     {
         Vector2 Point = currentPoint.position - transform.position;
-        if (currentPoint == PointB.transform)
+        if (currentPoint.position.x == PointB.transform.position.x)
         {
             Rigidbody.velocity = new Vector2(speed, Rigidbody.velocity.y);
         }
@@ -30,12 +30,12 @@ public class EnemyMov : MonoBehaviour
         {
             Rigidbody.velocity = new Vector2(-speed, Rigidbody.velocity.y);
         }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointB.transform)
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.8f && currentPoint == PointB.transform)
         {
             flip();
             currentPoint = PointA.transform;
         }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointA.transform)
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.8f && currentPoint == PointA.transform)
         {
             flip();
             currentPoint = PointB.transform;
