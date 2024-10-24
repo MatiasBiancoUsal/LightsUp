@@ -23,7 +23,7 @@ public class MainMenuButtons : MonoBehaviour
     public void StartGame() //este sirve para la siguiente escena en caso de que quieran saltear la into
     {
 
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Bosque 1");
 
     }
 
