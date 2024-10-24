@@ -39,7 +39,7 @@ public class animatorta : MonoBehaviour
         }
 
         // Animación correr
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && playerMovement.Horizontal != 0)
         {
             animator.SetFloat("Y blend", 1);
             animator.SetFloat("X blend", 0);
