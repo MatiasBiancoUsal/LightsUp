@@ -11,6 +11,7 @@ public class MainMenuButtons : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject Controlesmenu;
+    public GameObject Levelmenu;
 
 
     public void StartIntro() // boton del menu "intro" deberia ser el nombre de la escena que tenga la animacion de introduccion
@@ -69,6 +70,18 @@ public class MainMenuButtons : MonoBehaviour
 
     }
 
+    public void LevelMenuActive()
+    {
 
+        Levelmenu.SetActive(true);
+
+    }
+
+    public void LevelMenuDeactive()
+    {
+
+        Levelmenu.SetActive(false);
+
+    }
 
 }
