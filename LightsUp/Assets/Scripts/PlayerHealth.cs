@@ -88,13 +88,6 @@ public class PlayerHealth : MonoBehaviour
                     {"coordenada_X", this.gameObject.transform.position.x},
                 };
 
-                Debug.Log(enemigo);
-                Debug.Log(SceneManager.GetActiveScene().buildIndex);
-                Debug.Log(FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy);
-                Debug.Log(EnergyBar.instance.collectedBatteries);
-                Debug.Log(EnergyBar.instance.usedBatteries);
-                Debug.Log(this.gameObject.transform.position.x);
-
                 AnalyticsService.Instance.RecordEvent(eventoMorir);
 
                 //animatorta.instance.DeathAnimation();
