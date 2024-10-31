@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.Services.Analytics;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -51,9 +52,9 @@ public class PlayerHealth : MonoBehaviour
                 Physics2D.IgnoreLayerCollision(15, 2, false);
             }
         }
-    }
+    }   
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage(int damage, string enemigo)
     {
         if (invincibleCounter <= 0)
         {
@@ -77,10 +78,29 @@ public class PlayerHealth : MonoBehaviour
                 // puedes crear un método para ser llamado cuando la animación termine.
                 Invoke("PlayerDeath", 1.5f); // Espera a que termine la animación (ajusta el tiempo si es necesario)
 
+                CustomEvent eventoMorir = new CustomEvent("morir")
+                {
+                   {"enemigo", enemigo},
+                   {"level_index", SceneManager.GetActiveScene().buildIndex },
+                   {"PorcentajeBateria", FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy},
+                    {"NumBaterias", EnergyBar.instance.collectedBatteries },
+                    {"UsoBaterias", EnergyBar.instance.usedBatteries },
+                    {"coordenada_X", this.gameObject.transform.position.x},
+                };
+
+                Debug.Log(enemigo);
+                Debug.Log(SceneManager.GetActiveScene().buildIndex);
+                Debug.Log(FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy);
+                Debug.Log(EnergyBar.instance.collectedBatteries);
+                Debug.Log(EnergyBar.instance.usedBatteries);
+                Debug.Log(this.gameObject.transform.position.x);
+
+                AnalyticsService.Instance.RecordEvent(eventoMorir);
+
                 //animatorta.instance.DeathAnimation();
                 /*LevelManager.instance.RespawnPlayer();*/
 
-                
+
             }
 
             invincibleCounter = invincibleLength;
@@ -113,7 +133,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void Fall()
     {
-        ReceiveDamage(10);
+        ReceiveDamage(10, "Caida");
     }
 
     public void resetPlayerHealth()

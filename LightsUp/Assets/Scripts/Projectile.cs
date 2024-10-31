@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
             // Verifica si el jugador está vivo
             if (PlayerHealth.instance.state == PlayerHealth.PlayerStates.Alive)
             {
-                PlayerHealth.instance.ReceiveDamage(damage); 
+                PlayerHealth.instance.ReceiveDamage(damage, this.gameObject.name); 
             }
 
             Destroy(gameObject); 

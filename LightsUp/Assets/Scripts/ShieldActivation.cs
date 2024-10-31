@@ -47,7 +47,6 @@ public class ShieldActivation : MonoBehaviour
             else
             {
                 
-                PlayerHealth.instance.ReceiveDamage(1);
             }
         }
     }

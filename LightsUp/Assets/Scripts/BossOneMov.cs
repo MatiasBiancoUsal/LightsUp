@@ -219,7 +219,7 @@ public class BossOneMov : MonoBehaviour
         PlayerHealth playerHealth = player?.GetComponent<PlayerHealth>();
         if (playerHealth != null && damageTimer <= 0)
         {
-            playerHealth.ReceiveDamage(damageToPlayer);
+            playerHealth.ReceiveDamage(damageToPlayer, this.gameObject.name);
             damageTimer = damageInterval;
         }
     }
