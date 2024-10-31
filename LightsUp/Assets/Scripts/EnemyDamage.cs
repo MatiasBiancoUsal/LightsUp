@@ -9,7 +9,8 @@ public class EnemyDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerHealth.instance.ReceiveDamage(damage);
+            PlayerHealth.instance.ReceiveDamage(damage, this.gameObject.name);
+
         }
     }
 
@@ -17,7 +18,7 @@ public class EnemyDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerHealth.instance.ReceiveDamage(damage);
+            PlayerHealth.instance.ReceiveDamage(damage, this.gameObject.name);
         }
     }
 }

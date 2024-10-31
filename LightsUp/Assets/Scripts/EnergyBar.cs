@@ -11,7 +11,8 @@ public class EnergyBar : MonoBehaviour
     public GameObject player;
     public Text batteryCount; 
 
-    private int collectedBatteries = 0; 
+    public int collectedBatteries = 0;
+    public int usedBatteries = 0;
     public float batteryEnergy = 20f; 
 
     private void Awake()
@@ -21,12 +22,18 @@ public class EnergyBar : MonoBehaviour
 
     private void Start()
     {
+        usedBatteries = 0;
         UpdateEnergyBar();
         UpdateBatteryCount();
     }
 
     private void Update()
     {
+        if (PlayerHealth.instance.state == PlayerHealth.PlayerStates.Dead)
+        {
+            usedBatteries = 0;
+        }
+
         if (FlashlightManager.instance.flashlightEnergy > 0)
         {
             UpdateEnergyBar();
@@ -39,6 +46,7 @@ public class EnergyBar : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && collectedBatteries > 0)
         {
             UseBattery();
+            usedBatteries++;
         }
     }
 
