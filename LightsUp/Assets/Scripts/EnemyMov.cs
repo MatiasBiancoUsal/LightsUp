@@ -34,13 +34,11 @@ public class EnemyMov : MonoBehaviour
         {
             flip();
             currentPoint = PointA.transform;
-            print("cambiar");
         }
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.8f && currentPoint == PointA.transform)
         {
             flip();
             currentPoint = PointB.transform;
-            print("cambiar");
         }
     }
 
