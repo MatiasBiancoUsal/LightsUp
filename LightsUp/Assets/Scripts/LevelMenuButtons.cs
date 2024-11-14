@@ -91,7 +91,7 @@ public class LevelMenuButtons : MonoBehaviour
     public void Caverna3()
     {
 
-        SceneManager.LoadScene("Caverna 3");
+        SceneManager.LoadScene("Caverna 3.2");
 
     }
     public void Caverna4()
