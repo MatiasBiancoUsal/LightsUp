@@ -16,7 +16,8 @@ public class PlayerHealth : MonoBehaviour
     public float invincibleCounter;
     public float invincibleLength;
 
-    public enum PlayerStates {
+    public enum PlayerStates
+    {
         Alive,
         Dead
     }
@@ -43,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if(invincibleCounter > 0)
+        if (invincibleCounter > 0)
         {
             invincibleCounter -= Time.deltaTime;
 
@@ -52,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
                 Physics2D.IgnoreLayerCollision(15, 2, false);
             }
         }
-    }   
+    }
 
     public void ReceiveDamage(int damage, string enemigo)
     {
@@ -78,7 +79,22 @@ public class PlayerHealth : MonoBehaviour
                 // puedes crear un método para ser llamado cuando la animación termine.
                 Invoke("PlayerDeath", 1.5f); // Espera a que termine la animación (ajusta el tiempo si es necesario)
 
-                CustomEvent eventoMorir = new CustomEvent("morir")
+                if (SceneManager.GetActiveScene().name == "BossGula")
+                {
+                    CustomEvent eventoBoss = new CustomEvent("bossGula")
+                {
+                    {"vidaBoss",  BossHealth.Instance.health},
+                    {"PorcentajeBateria", FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy},
+                    {"NumBaterias", EnergyBar.instance.collectedBatteries },
+                    {"UsoBaterias", EnergyBar.instance.usedBatteries },
+                    {"coordenada_X", this.gameObject.transform.position.x},
+                };
+                    AnalyticsService.Instance.RecordEvent(eventoBoss);
+
+                }
+                else
+                {
+                    CustomEvent eventoMorir = new CustomEvent("morir")
                 {
                    {"enemigo", enemigo},
                    {"level_index", SceneManager.GetActiveScene().buildIndex },
@@ -87,8 +103,11 @@ public class PlayerHealth : MonoBehaviour
                     {"UsoBaterias", EnergyBar.instance.usedBatteries },
                     {"coordenada_X", this.gameObject.transform.position.x},
                 };
+                    AnalyticsService.Instance.RecordEvent(eventoMorir);
+                }
 
-                AnalyticsService.Instance.RecordEvent(eventoMorir);
+
+
 
                 //animatorta.instance.DeathAnimation();
                 /*LevelManager.instance.RespawnPlayer();*/
@@ -141,6 +160,14 @@ public class PlayerHealth : MonoBehaviour
 
 
 }
+
+
+
+
+
+
+
+
 
 
 
