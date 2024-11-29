@@ -83,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
                 {
                     CustomEvent eventoBoss = new CustomEvent("bossGula")
                 {
-                    {"vidaBoss",  BossHealth.Instance.health},
+                    {"VidaBoss",  BossHealth.Instance.health},
                     {"PorcentajeBateria", FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy},
                     {"NumBaterias", EnergyBar.instance.collectedBatteries },
                     {"UsoBaterias", EnergyBar.instance.usedBatteries },
