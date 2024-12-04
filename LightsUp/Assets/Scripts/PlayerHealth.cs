@@ -106,6 +106,20 @@ public class PlayerHealth : MonoBehaviour
                     AnalyticsService.Instance.RecordEvent(eventoMorir);
                 }
 
+                if (SceneManager.GetActiveScene().name == "BossCodicia")
+                {
+                    CustomEvent eventoBoss = new CustomEvent("bossCodicia")
+                {
+                    {"vidaBoss",  BossHealth.Instance.health},
+                    {"PorcentajeBateria", FlashlightManager.instance.flashlightEnergy * 100 / FlashlightManager.instance.totalEnergy},
+                    {"NumBaterias", EnergyBar.instance.collectedBatteries },
+                    {"UsoBaterias", EnergyBar.instance.usedBatteries },
+                    {"coordenada_X", this.gameObject.transform.position.x},
+                };
+                    AnalyticsService.Instance.RecordEvent(eventoBoss);
+
+                }
+
 
 
 
