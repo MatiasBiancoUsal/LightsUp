@@ -23,13 +23,14 @@ public class LevelExit : MonoBehaviour
 
     private void SendLevelCompleteEvent()
     {
-        Dictionary<string, object> eventData = new Dictionary<string, object>
+        var levelCompleteEvent = new CustomEvent("level_complete")
         {
             { "levelName", SceneManager.GetActiveScene().name },
             { "completionTime", Time.timeSinceLevelLoad }
         };
 
-        AnalyticsService.Instance.CustomData("level_complete", eventData);
-        Debug.Log("Evento level_complete enviado a Unity Analytics");
+        AnalyticsService.Instance.RecordEvent(levelCompleteEvent);
+
+        Debug.Log("Event 'level_complete' sent to Unity Analytics");
     }
 }
